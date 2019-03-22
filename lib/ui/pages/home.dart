@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AccountTab extends StatelessWidget {
+class HomeTab extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
     return new Scaffold(
-      body: Text("account"),
+      body: Text("home"),
     );
   }
 }

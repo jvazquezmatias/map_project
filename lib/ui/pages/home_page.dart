@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/ui/pages/account.dart';
 import 'package:project/ui/pages/settings.dart';
+import 'package:project/ui/pages/home.dart';
 
 class MyHome extends StatefulWidget {
   @override
@@ -11,7 +12,6 @@ final List<Tab> tabs =  <Tab>[
           Tab(
             icon: new Icon(Icons.home),
             text: "Inicio",
-            
           ),
           Tab(
             icon: new Icon(Icons.account_circle),
@@ -36,7 +36,6 @@ TabController controller;
 
   @override
   Widget build(BuildContext context) {
-
     final _appBar = AppBar(
       elevation: 5.0,
       leading: Icon(Icons.map),
@@ -57,7 +56,7 @@ TabController controller;
       backgroundColor: Theme.of(context).primaryColor,
       appBar: _appBar,
       body: TabBarView(
-        children: <Widget>[new AccountPage(), new SettingsPage()],
+        children: <Widget>[new HomeTab(),new AccountTab(), new SettingsTab()],
         controller: controller,
       ),
       bottomNavigationBar: new Material(
