@@ -56,12 +56,13 @@ TabController controller;
       backgroundColor: Theme.of(context).primaryColor,
       appBar: _appBar,
       body: TabBarView(
-        children: <Widget>[new HomeTab(),new AccountTab(), new SettingsTab()],
+        children: <Widget>[new HomeTab(),new LoginPage(), new SettingsTab()],
         controller: controller,
       ),
       bottomNavigationBar: new Material(
         
         child: new TabBar(
+         // labelColor: Colors.black,
           tabs: tabs,
         controller: controller,
       )
