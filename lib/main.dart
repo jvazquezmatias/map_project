@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Project: Map',
       theme: new ThemeData(
-          primaryColor: Colors.indigo[50], accentColor: Colors.orangeAccent),
+          primaryColor: Colors.indigo[50], accentColor: Colors.greenAccent),
       home: HomePage(),
     );
   }
