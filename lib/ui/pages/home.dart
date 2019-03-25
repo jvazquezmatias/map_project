@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class HomeTab extends StatelessWidget {
+  static String tag = 'my-home';
+  static bool disabled = true;
+
+  static void cuentaCorrecta() {
+    disabled = false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    bool disabled = true;
     return new Scaffold(
       body: ListView(
         physics: const NeverScrollableScrollPhysics(),
@@ -17,7 +22,7 @@ class HomeTab extends StatelessWidget {
               onPressed: null,
               child: new ConstrainedBox(
                 constraints: new BoxConstraints.expand(),
-                child: Image(image: new AssetImage('assets/img/logo.png')),
+                child: disabled ?  Image(image: new AssetImage('assets/img/logo.png')): Image(image: new AssetImage('assets/img/backImg.png')),
               ),
             ),
           ),

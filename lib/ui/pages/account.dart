@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 
-class AccountTab  extends State<LoginPage> {
+class AccountTab extends State<LoginPage> {
  @override
   Widget build(BuildContext context) {
     final logo = Hero(
