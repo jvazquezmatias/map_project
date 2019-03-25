@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomeTab extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     bool disabled = true;
@@ -15,10 +16,10 @@ class HomeTab extends StatelessWidget {
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
-                  constraints: new BoxConstraints.expand(),
-                  child: Image(image: new AssetImage('assets/img/logo.png')),
+                constraints: new BoxConstraints.expand(),
+                child: Image(image: new AssetImage('assets/img/logo.png')),
+              ),
             ),
-          ),
           ),
           Container(
             margin: EdgeInsets.only(top: 30),

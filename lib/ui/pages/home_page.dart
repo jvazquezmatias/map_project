@@ -56,6 +56,7 @@ TabController controller;
       backgroundColor: Theme.of(context).primaryColor,
       appBar: _appBar,
       body: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[new HomeTab(),new LoginPage(), new SettingsTab()],
         controller: controller,
       ),
