@@ -35,7 +35,9 @@ class HomeLoginPage extends StatelessWidget {
       ),
     );
 
-    final backButton = Padding(
+    final backButton = Container(
+      margin: EdgeInsets.only(top: 130),
+      child: Padding(
       padding: EdgeInsets.all(16.0),
       child: CircleAvatar(
           radius: 72.0,
@@ -48,7 +50,8 @@ class HomeLoginPage extends StatelessWidget {
              }
            ),
         ),
-      );
+      )
+    );
     
 
     final body = Container(

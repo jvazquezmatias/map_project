@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/ui/pages/account.dart';
 import 'package:project/ui/pages/settings.dart';
-import 'package:project/ui/pages/home.dart';
+import 'package:project/ui/pages/home.dart' as  home;
+import 'package:project/ui/pages/account_settings.dart';
 
 class MyHome extends StatefulWidget {
   @override
@@ -57,7 +58,7 @@ TabController controller;
       appBar: _appBar,
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[new HomeTab(),new LoginPage(), new SettingsTab()],
+        children: <Widget>[new home.HomeTab(), home.HomeTab.disabled ? new LoginPage() : new AccountSettings(), new SettingsTab()],
         controller: controller,
       ),
       bottomNavigationBar: new Material(
