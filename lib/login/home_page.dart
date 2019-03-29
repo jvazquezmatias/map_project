@@ -45,7 +45,7 @@ class HomeLoginPage extends StatelessWidget {
           backgroundImage: AssetImage('assets/img/backImg.png'),
            child: new FlatButton(
              onPressed: () {
-               home.HomeTab.cuentaCorrecta();
+               // home.HomeTab.cuentaCorrecta();
                Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome()));
              }
            ),

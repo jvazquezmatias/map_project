@@ -9,8 +9,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsTab extends State<SettingsPage> {
-  double _slider = 0.5;
-  bool _switch = false;
   int _index = 0;
   List<String> locations = ['Español', 'Catalán', 'Inglés'];
   String _selectedLocation = 'Español';

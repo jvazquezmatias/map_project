@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/login/home_page.dart';
+import 'package:project/widgets/mysql.dart' as mysql;
+import 'dart:async';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -7,34 +9,36 @@ class LoginPage extends StatefulWidget {
   AccountTab createState() => new AccountTab();
 }
 
-
 class AccountTab extends State<LoginPage> {
- @override
+  @override
   Widget build(BuildContext context) {
     final logo = Hero(
       tag: 'hero',
       child: CircleAvatar(
+        radius: 100.0,
         backgroundColor: Colors.transparent,
-        radius: 48.0,
-        child: Icon(Icons.map),
+        backgroundImage: AssetImage('assets/img/logoMap.png'),
       ),
     );
+    final usernameValue = TextEditingController();
 
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
-      initialValue: 'pablo@gmail.com',
+      // initialValue: 'pablo@gmail.com',
+      controller: usernameValue,
       decoration: InputDecoration(
         hintText: 'Email',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
     );
-
+    final passwordValue = TextEditingController();
     final password = TextFormField(
       autofocus: false,
-      initialValue: 'some password',
+      //initialValue: 'some password',
       obscureText: true,
+      controller: passwordValue,
       decoration: InputDecoration(
         hintText: 'Password',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -49,7 +53,20 @@ class AccountTab extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          Navigator.of(context).pushNamed(HomeLoginPage.tag);
+          mysql.query("SELECT USERNAME,PASSWORD FROM USERS WHERE USERNAME = '" +
+              usernameValue.text +
+              "' and password='" +
+              passwordValue.text +
+              "'").whenComplete(() {
+          mysql.getConnection()
+              ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
+              : showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                        content: Text("Usuario o Contraseña incorrectos."));
+                  });
+        });
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
