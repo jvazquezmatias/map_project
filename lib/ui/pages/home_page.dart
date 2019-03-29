@@ -58,7 +58,7 @@ TabController controller;
       appBar: _appBar,
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[new home.HomeTab(), home.HomeTab.disabled ? new LoginPage() : new AccountSettings(), new SettingsTab()],
+        children: <Widget>[new home.HomeTab(), home.HomeTab.disabled ? new LoginPage() : new AccountSettings(), new SettingsPage()],
         controller: controller,
       ),
       bottomNavigationBar: new Material(

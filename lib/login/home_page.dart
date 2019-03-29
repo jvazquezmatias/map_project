@@ -13,7 +13,7 @@ class HomeLoginPage extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         child: CircleAvatar(
           radius: 72.0,
-          backgroundColor: Colors.transparent,
+         //backgroundColor: Colors.transparent,
           backgroundImage: AssetImage('assets/img/logoMap.png'),
         ),
       ),
