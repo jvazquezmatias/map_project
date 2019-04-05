@@ -22,7 +22,7 @@ class HomeTab extends StatelessWidget {
               onPressed: null,
               child: new ConstrainedBox(
                 constraints: new BoxConstraints.expand(),
-                child: disabled ?  Image(image: new AssetImage('assets/img/mapa.png')): Image(image: new AssetImage('assets/img/backImg.png')),
+                child: Image(image: new AssetImage('assets/img/mapa.png')),
               ),
             ),
           ),
@@ -33,10 +33,9 @@ class HomeTab extends StatelessWidget {
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
-                  constraints: new BoxConstraints.expand(),
-                  child: new Image.network(
-                      "https://orig00.deviantart.net/c3cc/f/2009/117/6/8/imvu__new_banner_by_chibikinesis.gif",
-                      fit: BoxFit.fill)),
+                constraints: new BoxConstraints.expand(),
+                child: Image(image: new AssetImage('assets/img/mapa.png')),
+              ),
             ),
           ),
           Container(
@@ -46,10 +45,9 @@ class HomeTab extends StatelessWidget {
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
-                  constraints: new BoxConstraints.expand(),
-                  child: new Image.network(
-                      "https://www.fundacion-affinity.org/sites/default/files/el-gato-necesita-tener-acceso-al-exterior.jpg",
-                      fit: BoxFit.fill)),
+                constraints: new BoxConstraints.expand(),
+                child: Image(image: new AssetImage('assets/img/mapa.png')),
+              ),
             ),
           ),
           Container(
@@ -59,10 +57,11 @@ class HomeTab extends StatelessWidget {
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
-                  constraints: new BoxConstraints.expand(),
-                  child: new Image.network(
-                      "https://www.fundacion-affinity.org/sites/default/files/el-gato-necesita-tener-acceso-al-exterior.jpg",
-                      fit: BoxFit.fill)),
+                constraints: new BoxConstraints.expand(),
+                child: disabled
+                    ? Image(image: new AssetImage('assets/img/mapa.png'))
+                    : Image(image: new AssetImage('assets/img/backImg.png')),
+              ),
             ),
           ),
         ],
