@@ -14,11 +14,11 @@ bool connection=false;
 Future<String> query(var query) async {
   // Open a connection (testdb should already exist) javi123456_
   final conn = await MySqlConnection.connect(new ConnectionSettings(
-      host: 'sql7.freemysqlhosting.net',
+      host: 'labs.iam.cat',
       port: 3306,
-      user: 'sql7285849',
-      password: '44gTZnjj5j',
-      db: 'sql7285849'));
+      user: 'a17pabsanrod_adm',
+      password: 'pablo1234',
+      db: 'a17pabsanrod_projectefinal'));
 
   // Query the database using a parameterized query
   var results = await conn

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/widgets/mysql.dart' as mysql;
+import 'package:project/login/home_page.dart';
+import 'package:project/ui/pages/account.dart';
 
 class Register extends StatelessWidget {
   static String tag = 'register-page';
@@ -98,7 +101,25 @@ class Register extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () {},
+        onPressed: () {
+          mysql
+              .query("INSERT INTO USERS VALUES('" +
+                  nameValue.text +
+                  "','" +
+                  surnameValue.text +
+                  "','" +
+                  surname2Value.text +
+                  "','" +
+                  usernameValue.text +
+                  "','" +
+                  emailValue.text +
+                  "','" +
+                  passwordValue.text +
+                  "')")
+              .whenComplete(() {
+            Navigator.of(context).pushNamed(LoginPage.tag);
+          });
+        },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
         child: Text('Register', style: TextStyle(color: Colors.white)),
