@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
-import 'package:project/login/home_page.dart';
+import 'package:project/ui/pages/home_page.dart';
 import 'package:project/ui/pages/account.dart';
 
 class Register extends StatelessWidget {
@@ -123,7 +123,7 @@ class Register extends StatelessWidget {
                   passwordValue.text +
                   "')")
               .whenComplete(() {
-            Navigator.of(context).pushNamed(LoginPage.tag);
+              Navigator.of(context).pop();
           });
         },
         padding: EdgeInsets.all(12),
