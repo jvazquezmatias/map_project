@@ -12,7 +12,7 @@ String email="";
 bool connection=false;
 
 Future<String> query(var query) async {
-  // Open a connection (testdb should already exist)
+  // Open a connection (testdb should already exist) javi123456_
   final conn = await MySqlConnection.connect(new ConnectionSettings(
       host: 'labs.iam.cat',
       port: 3306,
