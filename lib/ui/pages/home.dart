@@ -10,14 +10,14 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return new Scaffold(
       body: ListView(
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(20.0),
         children: <Widget>[
           Container(
-            height: 100,
-            width: 100,
+            height: size.height*0.15,
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
@@ -27,9 +27,8 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 30),
-            height: 100,
-            width: 100,
+            margin: EdgeInsets.only(top: 15),
+            height: size.height*0.15,
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
@@ -39,9 +38,8 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 30),
-            height: 100,
-            width: 100,
+            margin: EdgeInsets.only(top: 15),
+            height: size.height*0.15,
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
@@ -51,9 +49,8 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 30),
-            height: 110,
-            width: 100,
+            margin: EdgeInsets.only(top: 15),
+            height: size.height*0.15,
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
