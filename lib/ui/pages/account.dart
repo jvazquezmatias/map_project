@@ -13,14 +13,19 @@ class LoginPage extends StatefulWidget {
 class AccountTab extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-        Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     final logo = Hero(
       tag: 'hero',
-      child: CircleAvatar(
-        radius: 100.0,
-        backgroundColor: Colors.transparent,
-        backgroundImage: AssetImage('assets/img/logoMap.png'),
-      ),
+    child: Container(
+            height: size.height*0.20,
+            child: new FlatButton(
+              onPressed: null,
+              child: new ConstrainedBox(
+                constraints: new BoxConstraints.expand(),
+                child: Image(image: new AssetImage('assets/img/logoMap.png')),
+              ),
+            ),
+          ),
     );
     final usernameValue = TextEditingController();
 
@@ -49,7 +54,7 @@ class AccountTab extends State<LoginPage> {
     );
 
     final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 10.0),
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
@@ -106,7 +111,7 @@ class AccountTab extends State<LoginPage> {
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
             logo,
-            SizedBox(height: 48.0),
+            SizedBox(height: size.height*0.05),
             email,
             SizedBox(height: 8.0),
             password,
