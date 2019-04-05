@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/login/home_page.dart';
+import 'package:project/login/register.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 import 'dart:async';
 
@@ -74,6 +75,21 @@ class AccountTab extends State<LoginPage> {
       ),
     );
 
+    final registerButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 1.0),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        onPressed: () {
+          Navigator.of(context).pushNamed(Register.tag);
+        },
+        padding: EdgeInsets.all(12),
+        color: Colors.lightBlueAccent,
+        child: Text('Register', style: TextStyle(color: Colors.white)),
+      ),
+    );
+
     final forgotLabel = FlatButton(
       child: Text(
         'Forgot password?',
@@ -95,6 +111,7 @@ class AccountTab extends State<LoginPage> {
             password,
             SizedBox(height: 24.0),
             loginButton,
+            registerButton,
             forgotLabel
           ],
         ),
