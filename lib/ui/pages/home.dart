@@ -27,7 +27,7 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 15),
+            margin: EdgeInsets.only(top: size.height*0.03),
             height: size.height*0.15,
             child: new FlatButton(
               onPressed: null,
@@ -38,7 +38,7 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 15),
+            margin: EdgeInsets.only(top: size.height*0.03),
             height: size.height*0.15,
             child: new FlatButton(
               onPressed: null,
@@ -49,7 +49,7 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 15),
+            margin: EdgeInsets.only(top: size.height*0.03),
             height: size.height*0.15,
             child: new FlatButton(
               onPressed: null,

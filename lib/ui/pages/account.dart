@@ -13,6 +13,7 @@ class LoginPage extends StatefulWidget {
 class AccountTab extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+        Size size = MediaQuery.of(context).size;
     final logo = Hero(
       tag: 'hero',
       child: CircleAvatar(
