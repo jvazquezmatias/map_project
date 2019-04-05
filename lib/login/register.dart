@@ -3,12 +3,23 @@ import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:project/ui/pages/home_page.dart';
 import 'package:project/ui/pages/account.dart';
 
-class Register extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
+  @override
+  Register createState() => new Register();
+}
 
+class Register extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final nameValue = TextEditingController();
+    final surnameValue = TextEditingController();
+    final surname2Value = TextEditingController();
+    final usernameValue = TextEditingController();
+    final emailValue = TextEditingController();
+    final passwordValue = TextEditingController();
+
     final logo = Hero(
       tag: 'hero',
       child: Container(
@@ -23,12 +34,12 @@ class Register extends StatelessWidget {
       ),
     );
 
-    final nameValue = TextEditingController();
     final name = TextFormField(
       keyboardType: TextInputType.text,
       autofocus: false,
       // initialValue: 'pablo@gmail.com',
       controller: nameValue,
+
       decoration: InputDecoration(
         hintText: 'Nombre',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -36,7 +47,6 @@ class Register extends StatelessWidget {
       ),
     );
 
-    final surnameValue = TextEditingController();
     final surname = TextFormField(
       keyboardType: TextInputType.text,
       autofocus: false,
@@ -49,7 +59,6 @@ class Register extends StatelessWidget {
       ),
     );
 
-    final surname2Value = TextEditingController();
     final surname2 = TextFormField(
       keyboardType: TextInputType.text,
       autofocus: false,
@@ -62,7 +71,6 @@ class Register extends StatelessWidget {
       ),
     );
 
-    final usernameValue = TextEditingController();
     final username = TextFormField(
       keyboardType: TextInputType.text,
       autofocus: false,
@@ -75,7 +83,6 @@ class Register extends StatelessWidget {
       ),
     );
 
-    final emailValue = TextEditingController();
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
@@ -88,7 +95,6 @@ class Register extends StatelessWidget {
       ),
     );
 
-    final passwordValue = TextEditingController();
     final password = TextFormField(
       autofocus: false,
       //initialValue: 'some password',
@@ -101,7 +107,7 @@ class Register extends StatelessWidget {
       ),
     );
 
-    final loginButton = Padding(
+    final registerButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: RaisedButton(
         shape: RoundedRectangleBorder(
@@ -123,7 +129,7 @@ class Register extends StatelessWidget {
                   passwordValue.text +
                   "')")
               .whenComplete(() {
-              Navigator.of(context).pop();
+            Navigator.of(context).pop();
           });
         },
         padding: EdgeInsets.all(12),
@@ -152,7 +158,7 @@ class Register extends StatelessWidget {
             SizedBox(height: 8.0),
             password,
             SizedBox(height: 25.0),
-            loginButton
+            registerButton
           ],
         ),
       ),

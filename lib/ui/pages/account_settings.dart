@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:project/flutter_cupertino_settings.dart';
+import 'package:project/widgets/mysql.dart' as mysql;
+import 'package:project/model/user.dart';
 
 class AccountSettings extends StatefulWidget {
   static String tag = 'account-settings';
@@ -14,12 +16,14 @@ class AccountSettings extends StatefulWidget {
   List<String> locations = ['Español', 'Catalán', 'Inglés'];
   String _selectedLocation = 'Español';
 
+
   @override
   Widget build(BuildContext context) {
+    User user = mysql.getUser();
     return Scaffold(
       body: CupertinoSettings(
         items: <Widget>[
-          CSHeader('Tipo de mapa:'),
+          CSHeader(user.getName()),
           CSSelection(
             ['Carretera', 'Satélites', 'Terreno'],
             (int value) {

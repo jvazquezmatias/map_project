@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:project/login/home_page.dart';
 import 'package:project/login/register.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
-import 'dart:async';
+import 'package:project/model/user.dart';
 
 class LoginPage extends StatefulWidget {
+  static String _username="";
   static String tag = 'login-page';
   @override
   AccountTab createState() => new AccountTab();
@@ -29,8 +30,8 @@ class AccountTab extends State<LoginPage> {
     );
     final usernameValue = TextEditingController();
 
-    final email = TextFormField(
-      keyboardType: TextInputType.emailAddress,
+    final username = TextFormField(
+      keyboardType: TextInputType.text,
       autofocus: false,
       // initialValue: 'pablo@gmail.com',
       controller: usernameValue,
@@ -61,7 +62,7 @@ class AccountTab extends State<LoginPage> {
         ),
         onPressed: () {
           mysql
-              .query("SELECT USERNAME,PASSWORD FROM USERS WHERE USERNAME = '" +
+              .query("SELECT * FROM USERS WHERE USERNAME = '" +
                   usernameValue.text +
                   "' and password='" +
                   passwordValue.text +
@@ -76,6 +77,7 @@ class AccountTab extends State<LoginPage> {
                           content: Text("Usuario o Contraseña incorrectos."));
                     });
           });
+          
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -90,7 +92,7 @@ class AccountTab extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          Navigator.of(context).pushNamed(Register.tag);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -114,7 +116,7 @@ class AccountTab extends State<LoginPage> {
           children: <Widget>[
             logo,
             SizedBox(height: size.height * 0.05),
-            email,
+            username,
             SizedBox(height: 8.0),
             password,
             SizedBox(height: 24.0),

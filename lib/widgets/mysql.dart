@@ -24,8 +24,12 @@ Future<String> query(var query) async {
   var results = await conn
       .query(query);
   for (var row in results) {
-    username = row[0];
-    password = row[1];
+    name=row[0];
+    surname=row[1];
+    surname2=row[2];
+    username = row[3];
+    email=row[4];
+    password = row[5];
     connection=true;
   }
     //print(getFinalizado());
