@@ -16,16 +16,16 @@ class AccountTab extends State<LoginPage> {
     Size size = MediaQuery.of(context).size;
     final logo = Hero(
       tag: 'hero',
-    child: Container(
-            height: size.height*0.20,
-            child: new FlatButton(
-              onPressed: null,
-              child: new ConstrainedBox(
-                constraints: new BoxConstraints.expand(),
-                child: Image(image: new AssetImage('assets/img/logoMap.png')),
-              ),
-            ),
+      child: Container(
+        height: size.height * 0.20,
+        child: new FlatButton(
+          onPressed: null,
+          child: new ConstrainedBox(
+            constraints: new BoxConstraints.expand(),
+            child: Image(image: new AssetImage('assets/img/logoMap.png')),
           ),
+        ),
+      ),
     );
     final usernameValue = TextEditingController();
 
@@ -60,20 +60,22 @@ class AccountTab extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          mysql.query("SELECT USERNAME,PASSWORD FROM USERS WHERE USERNAME = '" +
-              usernameValue.text +
-              "' and password='" +
-              passwordValue.text +
-              "'").whenComplete(() {
-          mysql.getConnection()
-              ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
-              : showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                        content: Text("Usuario o Contraseña incorrectos."));
-                  });
-        });
+          mysql
+              .query("SELECT USERNAME,PASSWORD FROM USERS WHERE USERNAME = '" +
+                  usernameValue.text +
+                  "' and password='" +
+                  passwordValue.text +
+                  "'")
+              .whenComplete(() {
+            mysql.getConnection()
+                ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
+                : showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                          content: Text("Usuario o Contraseña incorrectos."));
+                    });
+          });
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -111,7 +113,7 @@ class AccountTab extends State<LoginPage> {
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
             logo,
-            SizedBox(height: size.height*0.05),
+            SizedBox(height: size.height * 0.05),
             email,
             SizedBox(height: 8.0),
             password,

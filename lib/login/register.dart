@@ -8,12 +8,18 @@ class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     final logo = Hero(
       tag: 'hero',
-      child: CircleAvatar(
-        radius: 100.0,
-        backgroundColor: Colors.transparent,
-        backgroundImage: AssetImage('assets/img/logoMap.png'),
+      child: Container(
+        height: size.height * 0.25,
+        child: new FlatButton(
+          onPressed: null,
+          child: new ConstrainedBox(
+            constraints: new BoxConstraints.expand(),
+            child: Image(image: new AssetImage('assets/img/logoMap.png')),
+          ),
+        ),
       ),
     );
 
@@ -24,7 +30,7 @@ class Register extends StatelessWidget {
       // initialValue: 'pablo@gmail.com',
       controller: nameValue,
       decoration: InputDecoration(
-        hintText: 'Name',
+        hintText: 'Nombre',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -37,7 +43,7 @@ class Register extends StatelessWidget {
       // initialValue: 'pablo@gmail.com',
       controller: surnameValue,
       decoration: InputDecoration(
-        hintText: 'First Surname',
+        hintText: 'Primer Apellido',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -50,7 +56,7 @@ class Register extends StatelessWidget {
       // initialValue: 'pablo@gmail.com',
       controller: surname2Value,
       decoration: InputDecoration(
-        hintText: 'Second Surname',
+        hintText: 'Segundo Apellido',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -63,7 +69,7 @@ class Register extends StatelessWidget {
       // initialValue: 'pablo@gmail.com',
       controller: usernameValue,
       decoration: InputDecoration(
-        hintText: 'Username',
+        hintText: 'Usuario',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -89,7 +95,7 @@ class Register extends StatelessWidget {
       obscureText: true,
       controller: passwordValue,
       decoration: InputDecoration(
-        hintText: 'Password',
+        hintText: 'Contraseña',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -122,7 +128,7 @@ class Register extends StatelessWidget {
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
-        child: Text('Register', style: TextStyle(color: Colors.white)),
+        child: Text('Registrarse', style: TextStyle(color: Colors.white)),
       ),
     );
 
@@ -133,7 +139,7 @@ class Register extends StatelessWidget {
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
             logo,
-            SizedBox(height: 50.0),
+            SizedBox(height: 30.0),
             name,
             SizedBox(height: 8.0),
             surname,
