@@ -15,7 +15,7 @@ class AccountTabSettings extends State<AccountSettings> {
         body: new Stack(
       children: <Widget>[
         ClipPath(
-          child: Container(color: Colors.black.withOpacity(0.8)),
+          child: Container(color: Colors.green.withOpacity(0.6)),
           clipper: getClipper(),
         ),
         Positioned(
