@@ -1,73 +1,120 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:project/flutter_cupertino_settings.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
-import 'package:project/model/user.dart';
 
 class AccountSettings extends StatefulWidget {
   static String tag = 'account-settings';
   @override
   AccountTabSettings createState() => new AccountTabSettings();
 }
-  class AccountTabSettings extends State<AccountSettings> {
-  double _slider = 0.5;
-  bool _switch = false;
-  int _index = 0;
-  List<String> locations = ['Español', 'Catalán', 'Inglés'];
-  String _selectedLocation = 'Español';
 
-
+class AccountTabSettings extends State<AccountSettings> {
   @override
   Widget build(BuildContext context) {
-    User user = mysql.getUser();
-    return Scaffold(
-      body: CupertinoSettings(
-        items: <Widget>[
-          CSHeader(user.getName()),
-          CSSelection(
-            ['Carretera', 'Satélites', 'Terreno'],
-            (int value) {
-              setState(() {
-                _index = value;
-              });
-            },
-            currentSelection: _index,
-          ),
-          CSHeader('Formato mapa:'),
-          CSSelection(
-            ['Kilómetros', 'Millas'],
-            (int value) {
-              setState(() {
-                _index = value;
-              });
-            },
-            currentSelection: _index,
-          ),
-          CSHeader("Idioma"),
-          new DropdownButton<String>(
-             style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : CS_TEXT_COLOR,
-                fontSize: CS_HEADER_FONT_SIZE,
-              ),
-              items: locations.map((String val) {
-                return new DropdownMenuItem<String>(
-                  value: val,
-                  child: new Text(val),
-                  
-                );
-              }).toList(),
-              hint: Text("Elige Idioma"),
-              onChanged: (newVal) {
-                _selectedLocation = newVal;
-                this.setState(() {});
-              }),
-          CSHeader(""),
-          CSButton(CSButtonType.DEFAULT_CENTER, "Cambiar Contraseña", () {}),
-          CSButton(CSButtonType.DESTRUCTIVE, "Eliminar Cuenta", () {}),
-        ],
-      ),
-    );
+    return new Scaffold(
+        body: new Stack(
+      children: <Widget>[
+        ClipPath(
+          child: Container(color: Colors.black.withOpacity(0.8)),
+          clipper: getClipper(),
+        ),
+        Positioned(
+            width: 390,
+            top: MediaQuery.of(context).size.height / 7,
+            child: Column(
+              children: <Widget>[
+                Container(
+                    width: 150.0,
+                    height: 150.0,
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                'https://pixel.nymag.com/imgs/daily/vulture/2017/06/14/14-tom-cruise.w700.h700.jpg'),
+                            fit: BoxFit.cover),
+                        borderRadius: BorderRadius.all(Radius.circular(75.0)),
+                        boxShadow: [
+                          BoxShadow(blurRadius: 7.0, color: Colors.black)
+                        ])),
+                SizedBox(height: 40.0),
+                Text(
+                  mysql.getUser().getName() +
+                      " " +
+                      mysql.getUser().getSurname(),
+                  style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Montserrat'),
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  mysql.getUser().getEmail(),
+                  style: TextStyle(
+                      fontSize: 17.0,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: 'Montserrat'),
+                ),
+                SizedBox(height: 25.0),
+                Container(
+                    height: 30.0,
+                    width: 140.0,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      shadowColor: Colors.greenAccent,
+                      color: Colors.green,
+                      elevation: 7.0,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Center(
+                          child: Text(
+                            'Cambiar Contraseña',
+                            style: TextStyle(
+                                color: Colors.white, fontFamily: 'Montserrat'),
+                          ),
+                        ),
+                      ),
+                    )),
+                SizedBox(height: 25.0),
+                Container(
+                    height: 30.0,
+                    width: 115.0,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      shadowColor: Colors.redAccent,
+                      color: Colors.red,
+                      elevation: 7.0,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Center(
+                          child: Text(
+                            'Eliminar Cuenta',
+                            style: TextStyle(
+                                color: Colors.white, fontFamily: 'Montserrat'),
+                          ),
+                        ),
+                      ),
+                    ))
+              ],
+            ))
+      ],
+    ));
+  }
+}
+
+class getClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = new Path();
+
+    path.lineTo(0.0, size.height / 1.6);
+    path.lineTo(size.width + 125, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // TODO: implement shouldReclip
+    return true;
   }
 }
