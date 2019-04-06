@@ -5,7 +5,7 @@ import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:project/model/user.dart';
 
 class LoginPage extends StatefulWidget {
-  static String _username="";
+  static String _username = "";
   static String tag = 'login-page';
   @override
   AccountTab createState() => new AccountTab();
@@ -28,29 +28,51 @@ class AccountTab extends State<LoginPage> {
         ),
       ),
     );
+    final _formKey = GlobalKey<FormState>();
     final usernameValue = TextEditingController();
-
-    final username = TextFormField(
-      keyboardType: TextInputType.text,
-      autofocus: false,
-      // initialValue: 'pablo@gmail.com',
-      controller: usernameValue,
-      decoration: InputDecoration(
-        hintText: 'Username',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
     final passwordValue = TextEditingController();
-    final password = TextFormField(
-      autofocus: false,
-      //initialValue: 'some password',
-      obscureText: true,
-      controller: passwordValue,
-      decoration: InputDecoration(
-        hintText: 'Password',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+
+    final form = Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            // initialValue: 'pablo@gmail.com',
+            controller: usernameValue,
+            decoration: InputDecoration(
+              hintText: 'Username',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'No puedes dejar el campo vacío';
+              }
+            },
+          ),
+          SizedBox(height: 8.0),
+          TextFormField(
+            autofocus: false,
+            //initialValue: 'some password',
+            obscureText: true,
+            controller: passwordValue,
+            decoration: InputDecoration(
+              hintText: 'Password',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'No puedes dejar el campo vacío';
+              }
+            },
+          ),
+        ],
       ),
     );
 
@@ -61,23 +83,24 @@ class AccountTab extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          mysql
-              .query("SELECT * FROM USERS WHERE USERNAME = '" +
-                  usernameValue.text +
-                  "' and password='" +
-                  passwordValue.text +
-                  "'")
-              .whenComplete(() {
-            mysql.getConnection()
-                ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
-                : showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                          content: Text("Usuario o Contraseña incorrectos."));
-                    });
-          });
-          
+          if (_formKey.currentState.validate()) {
+            mysql
+                .query("SELECT * FROM USERS WHERE USERNAME = '" +
+                    usernameValue.text +
+                    "' and password='" +
+                    passwordValue.text +
+                    "'")
+                .whenComplete(() {
+              mysql.getConnection()
+                  ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
+                  : showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            content: Text("Usuario o Contraseña incorrectos."));
+                      });
+            });
+          }
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -92,7 +115,8 @@ class AccountTab extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => RegisterPage()));
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -116,9 +140,7 @@ class AccountTab extends State<LoginPage> {
           children: <Widget>[
             logo,
             SizedBox(height: size.height * 0.05),
-            username,
-            SizedBox(height: 8.0),
-            password,
+            form,
             SizedBox(height: 24.0),
             loginButton,
             registerButton,

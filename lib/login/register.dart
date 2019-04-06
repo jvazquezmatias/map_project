@@ -12,6 +12,7 @@ class RegisterPage extends StatefulWidget {
 class Register extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     Size size = MediaQuery.of(context).size;
     final nameValue = TextEditingController();
     final surnameValue = TextEditingController();
@@ -34,79 +35,122 @@ class Register extends State<RegisterPage> {
       ),
     );
 
-    final name = TextFormField(
-      keyboardType: TextInputType.text,
-      autofocus: false,
-      // initialValue: 'pablo@gmail.com',
-      controller: nameValue,
+    final form = Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            // initialValue: 'pablo@gmail.com',
+            controller: nameValue,
 
-      decoration: InputDecoration(
-        hintText: 'Nombre',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            decoration: InputDecoration(
+              hintText: 'Nombre',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'No puedes dejar el campo vacío';
+              }
+            },
+          ),
+          SizedBox(height: 15.0),
+          TextFormField(
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            // initialValue: 'pablo@gmail.com',
+            controller: surnameValue,
+            decoration: InputDecoration(
+              hintText: 'Primer Apellido',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'No puedes dejar el campo vacío';
+              }
+            },
+          ),
+          SizedBox(height: 15.0),
+          TextFormField(
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            // initialValue: 'pablo@gmail.com',
+            controller: surname2Value,
+            decoration: InputDecoration(
+              hintText: 'Segundo Apellido',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'No puedes dejar el campo vacío';
+              }
+            },
+          ),
+          SizedBox(height: 15.0),
+          TextFormField(
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            // initialValue: 'pablo@gmail.com',
+            controller: usernameValue,
+            decoration: InputDecoration(
+              hintText: 'Usuario',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'No puedes dejar el campo vacío';
+              }
+            },
+          ),
+          SizedBox(height: 15.0),
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            autofocus: false,
+            // initialValue: 'pablo@gmail.com',
+            controller: emailValue,
+            decoration: InputDecoration(
+              hintText: 'Email',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'No puedes dejar el campo vacío';
+              }
+            },
+          ),
+          SizedBox(height: 15.0),
+          TextFormField(
+            autofocus: false,
+            //initialValue: 'some password',
+            obscureText: true,
+            controller: passwordValue,
+            decoration: InputDecoration(
+              hintText: 'Contraseña',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'No puedes dejar el campo vacío';
+              }
+            },
+          ),
+        ],
       ),
     );
-
-    final surname = TextFormField(
-      keyboardType: TextInputType.text,
-      autofocus: false,
-      // initialValue: 'pablo@gmail.com',
-      controller: surnameValue,
-      decoration: InputDecoration(
-        hintText: 'Primer Apellido',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-
-    final surname2 = TextFormField(
-      keyboardType: TextInputType.text,
-      autofocus: false,
-      // initialValue: 'pablo@gmail.com',
-      controller: surname2Value,
-      decoration: InputDecoration(
-        hintText: 'Segundo Apellido',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-
-    final username = TextFormField(
-      keyboardType: TextInputType.text,
-      autofocus: false,
-      // initialValue: 'pablo@gmail.com',
-      controller: usernameValue,
-      decoration: InputDecoration(
-        hintText: 'Usuario',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-
-    final email = TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      // initialValue: 'pablo@gmail.com',
-      controller: emailValue,
-      decoration: InputDecoration(
-        hintText: 'Email',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-
-    final password = TextFormField(
-      autofocus: false,
-      //initialValue: 'some password',
-      obscureText: true,
-      controller: passwordValue,
-      decoration: InputDecoration(
-        hintText: 'Contraseña',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-
     final registerButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: RaisedButton(
@@ -114,23 +158,25 @@ class Register extends State<RegisterPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          mysql
-              .query("INSERT INTO USERS VALUES('" +
-                  nameValue.text +
-                  "','" +
-                  surnameValue.text +
-                  "','" +
-                  surname2Value.text +
-                  "','" +
-                  usernameValue.text +
-                  "','" +
-                  emailValue.text +
-                  "','" +
-                  passwordValue.text +
-                  "')")
-              .whenComplete(() {
-            Navigator.of(context).pop();
-          });
+          if (_formKey.currentState.validate()) {
+            mysql
+                .query("INSERT INTO USERS VALUES('" +
+                    nameValue.text +
+                    "','" +
+                    surnameValue.text +
+                    "','" +
+                    surname2Value.text +
+                    "','" +
+                    usernameValue.text +
+                    "','" +
+                    emailValue.text +
+                    "','" +
+                    passwordValue.text +
+                    "')")
+                .whenComplete(() {
+              Navigator.of(context).pop();
+            });
+          }
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -143,23 +189,7 @@ class Register extends State<RegisterPage> {
         child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[
-            logo,
-            SizedBox(height: 30.0),
-            name,
-            SizedBox(height: 8.0),
-            surname,
-            SizedBox(height: 8.0),
-            surname2,
-            SizedBox(height: 8.0),
-            username,
-            SizedBox(height: 8.0),
-            email,
-            SizedBox(height: 8.0),
-            password,
-            SizedBox(height: 25.0),
-            registerButton
-          ],
+          children: <Widget>[logo, form, registerButton],
         ),
       ),
     );
