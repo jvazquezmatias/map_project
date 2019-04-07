@@ -3,11 +3,13 @@ import 'ui/pages/home_page.dart';
 import 'package:project/login/home_page.dart';
 import 'package:project/login/register.dart';
 import 'package:project/ui/pages/account.dart';
+import 'package:project/ui/pages/home_page.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget{
     final routes = <String, WidgetBuilder>{
+    MyHome.tag: (context) => MyHome(),
     LoginPage.tag: (context) => LoginPage(),
     HomeLoginPage.tag: (context) => HomeLoginPage(),
     RegisterPage.tag: (context) => RegisterPage(),
