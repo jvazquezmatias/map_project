@@ -12,6 +12,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class AccountTab extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final usernameValue = TextEditingController();
+  final passwordValue = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,9 +31,6 @@ class AccountTab extends State<LoginPage> {
         ),
       ),
     );
-    final _formKey = GlobalKey<FormState>();
-    final usernameValue = TextEditingController();
-    final passwordValue = TextEditingController();
 
     final form = Form(
       key: _formKey,

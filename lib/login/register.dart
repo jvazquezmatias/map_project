@@ -10,17 +10,17 @@ class RegisterPage extends StatefulWidget {
 }
 
 class Register extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  final nameValue = TextEditingController();
+  final surnameValue = TextEditingController();
+  final surname2Value = TextEditingController();
+  final usernameValue = TextEditingController();
+  final emailValue = TextEditingController();
+  final passwordValue = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     Size size = MediaQuery.of(context).size;
-    final nameValue = TextEditingController();
-    final surnameValue = TextEditingController();
-    final surname2Value = TextEditingController();
-    final usernameValue = TextEditingController();
-    final emailValue = TextEditingController();
-    final passwordValue = TextEditingController();
-
     final logo = Hero(
       tag: 'hero',
       child: Container(
