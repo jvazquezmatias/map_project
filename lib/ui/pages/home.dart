@@ -33,7 +33,7 @@ class HomeTab extends StatelessWidget {
               onPressed: null,
               child: new ConstrainedBox(
                 constraints: new BoxConstraints.expand(),
-                child: Image(image: new AssetImage('assets/img/mapa.png')),
+                child: Image(image: new AssetImage('assets/img/alrededor.png')),
               ),
             ),
           ),
