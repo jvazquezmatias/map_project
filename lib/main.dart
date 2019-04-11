@@ -4,6 +4,7 @@ import 'package:project/login/home_page.dart';
 import 'package:project/login/register.dart';
 import 'package:project/ui/pages/account.dart';
 import 'package:project/ui/pages/home_page.dart';
+import 'package:project/ui/pages/splash_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget{
           primaryColor: Colors.white,
           accentColor: Colors.greenAccent 
           ),
-      home: MyHome(),
+      home: SplashScreen(),
 
     );
   }

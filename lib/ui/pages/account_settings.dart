@@ -163,6 +163,7 @@ class AccountTabSettings extends State<AccountSettings> {
                                   onPressed: () {
                                     mysql.connection = false;
                                     home.HomeTab.disabled = true;
+                                    mysql.user = null;
                                     Navigator.of(context).pushNamed(MyHome.tag);
                                   },
                                 ),
@@ -220,6 +221,7 @@ class AccountTabSettings extends State<AccountSettings> {
                                         .whenComplete(() {
                                       mysql.connection = false;
                                       home.HomeTab.disabled = true;
+                                      mysql.user = null;
                                       Navigator.of(context)
                                           .pushNamed(MyHome.tag);
                                     });
