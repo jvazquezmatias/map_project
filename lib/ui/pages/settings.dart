@@ -26,8 +26,12 @@ class SettingsTab extends State<SettingsPage> {
             (int value) {
               setState(() {
                 _index = value;
-                if(_index == 1) {
+                if (_index == 0) {
+                  map.MapPage.tipusMapa = MapType.normal;
+                } else if (_index == 1) {
                   map.MapPage.tipusMapa = MapType.satellite;
+                } else if (_index == 2) {
+                  map.MapPage.tipusMapa = MapType.terrain;
                 }
               });
             },
