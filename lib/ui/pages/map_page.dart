@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
 class MapPage extends StatefulWidget {
+  static int _indexFormatMap = 0;
   static String tag = 'map-page';
   static MapType tipusMapa = MapType.normal;
   @override
@@ -31,6 +32,15 @@ class MapUiPage extends State<MapPage> {
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
           FloatingActionButton(
+            heroTag: "buttonFormatMap",
+            onPressed: () {
+              _formatMap();
+            },
+            child: Icon(Icons.map),
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
+            heroTag: "buttonAdd",
             onPressed: () {
               _zoomIn();
             },
@@ -38,6 +48,7 @@ class MapUiPage extends State<MapPage> {
           ),
           SizedBox(height: 10),
           FloatingActionButton(
+            heroTag: "buttonRemove",
             onPressed: () {
               _zoomOut();
             },
@@ -55,6 +66,31 @@ class MapUiPage extends State<MapPage> {
   Future<void> _zoomOut() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.zoomTo(_position.zoom - 1));
+  }
+
+  void _formatMap() {
+    MapPage._indexFormatMap++;
+    if (MapPage._indexFormatMap == 0) {
+      setState(() {
+        MapPage.tipusMapa = MapType.normal;
+      });
+    }
+    if (MapPage._indexFormatMap == 1) {
+      setState(() {
+        MapPage.tipusMapa = MapType.satellite;
+      });
+    }
+    if (MapPage._indexFormatMap == 2) {
+      setState(() {
+        MapPage.tipusMapa = MapType.terrain;
+      });
+    }
+    if (MapPage._indexFormatMap == 3) {
+      setState(() {
+        MapPage.tipusMapa = MapType.hybrid;
+      });
+      MapPage._indexFormatMap = -1;
+    }
   }
 
   void _updateCameraPosition(CameraPosition position) {

@@ -5,13 +5,15 @@ import 'package:project/ui/pages/map_page.dart' as map;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
+  static int _indexTipoMapa = 0;
+  static int _indexFormatoMapa = 0;
+  static int _indexIdioma = 0;
   static String tag = 'settings-page';
   @override
   SettingsTab createState() => new SettingsTab();
 }
 
 class SettingsTab extends State<SettingsPage> {
-  int _index = 0;
   List<String> locations = ['Español', 'Catalán', 'Inglés'];
   String _selectedLocation = 'Español';
 
@@ -22,40 +24,45 @@ class SettingsTab extends State<SettingsPage> {
         items: <Widget>[
           CSHeader('Tipo de mapa:'),
           CSSelection(
-            ['Carretera', 'Satélites', 'Terreno'],
+            ['Carretera', 'Satélites', 'Terreno', 'Híbrido'],
             (int value) {
               setState(() {
-                _index = value;
-                if (_index == 0) {
+                SettingsPage._indexTipoMapa = value;
+                if (SettingsPage._indexTipoMapa == 0) {
                   map.MapPage.tipusMapa = MapType.normal;
-                } else if (_index == 1) {
+                }
+                if (SettingsPage._indexTipoMapa == 1) {
                   map.MapPage.tipusMapa = MapType.satellite;
-                } else if (_index == 2) {
+                }
+                if (SettingsPage._indexTipoMapa == 2) {
                   map.MapPage.tipusMapa = MapType.terrain;
+                }
+                if (SettingsPage._indexTipoMapa == 3) {
+                  map.MapPage.tipusMapa = MapType.hybrid;
                 }
               });
             },
-            currentSelection: _index,
+            currentSelection: SettingsPage._indexTipoMapa,
           ),
           CSHeader('Formato mapa:'),
           CSSelection(
             ['Kilómetros', 'Millas'],
             (int value) {
               setState(() {
-                _index = value;
+                SettingsPage._indexFormatoMapa = value;
               });
             },
-            currentSelection: _index,
+            currentSelection: SettingsPage._indexFormatoMapa,
           ),
           CSHeader('Idioma:'),
           CSSelection(
             ['Español', 'Catalán', 'Inglés'],
             (int value) {
               setState(() {
-                _index = value;
+                SettingsPage._indexIdioma = value;
               });
             },
-            currentSelection: _index,
+            currentSelection: SettingsPage._indexIdioma,
           ),
         ],
       ),
