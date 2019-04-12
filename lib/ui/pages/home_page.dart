@@ -4,13 +4,13 @@ import 'package:project/ui/pages/settings.dart';
 import 'package:project/ui/pages/home.dart' as home;
 import 'package:project/ui/pages/account_settings.dart';
 
-class MyHome extends StatefulWidget  {
+class MyHome extends StatefulWidget {
   static String tag = 'home-principal';
   @override
   HomePage createState() => new HomePage();
 }
 
-class HomePage extends State<MyHome> with SingleTickerProviderStateMixin  {
+class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
   final List<Tab> tabs = <Tab>[
     Tab(
       icon: new Icon(Icons.home),
@@ -30,6 +30,24 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin  {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Seguro quieres cerrar la aplicación?"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("No"),
+                  onPressed: () => Navigator.pop(context, false),
+                ),
+                FlatButton(
+                  child: Text("Si"),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+              ],
+            ));
   }
 
   @override
@@ -65,25 +83,26 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin  {
         ),
       ],
     );
-
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: _appBar,
-      body: TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          new home.HomeTab(),
-          home.HomeTab.disabled ? new LoginPage() : new AccountSettings(),
-          new SettingsPage()
-        ],
-        controller: controller,
-      ),
-      bottomNavigationBar: new Material(
-          child: new TabBar(
-        // labelColor: Colors.black,
-        tabs: tabs,
-        controller: controller,
-      )),
-    );
+    return WillPopScope(
+        onWillPop: _onBackPressed,
+        child: new Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          appBar: _appBar,
+          body: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              new home.HomeTab(),
+              home.HomeTab.disabled ? new LoginPage() : new AccountSettings(),
+              new SettingsPage()
+            ],
+            controller: controller,
+          ),
+          bottomNavigationBar: new Material(
+              child: new TabBar(
+            // labelColor: Colors.black,
+            tabs: tabs,
+            controller: controller,
+          )),
+        ));
   }
 }
