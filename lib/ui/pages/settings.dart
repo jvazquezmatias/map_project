@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:project/flutter_cupertino_settings.dart';
+import 'package:project/ui/pages/map_page.dart' as map;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
   static String tag = 'settings-page';
@@ -24,6 +26,9 @@ class SettingsTab extends State<SettingsPage> {
             (int value) {
               setState(() {
                 _index = value;
+                if(_index == 1) {
+                  map.MapPage.tipusMapa = MapType.satellite;
+                }
               });
             },
             currentSelection: _index,

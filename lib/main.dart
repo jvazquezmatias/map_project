@@ -4,6 +4,7 @@ import 'package:project/login/home_page.dart';
 import 'package:project/login/register.dart';
 import 'package:project/ui/pages/account.dart';
 import 'package:project/ui/pages/home_page.dart';
+import 'package:project/ui/pages/map_page.dart';
 import 'package:project/ui/pages/splash_screen.dart';
 
 void main() => runApp(MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget{
     LoginPage.tag: (context) => LoginPage(),
     HomeLoginPage.tag: (context) => HomeLoginPage(),
     RegisterPage.tag: (context) => RegisterPage(),
+    MapPage.tag: (context) => MapPage(),
   };
 
   @override

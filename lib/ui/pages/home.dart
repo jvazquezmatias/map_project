@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/ui/pages/map_page.dart';
 
 class HomeTab extends StatelessWidget {
   static String tag = 'my-home';
@@ -19,7 +20,9 @@ class HomeTab extends StatelessWidget {
           Container(
             height: size.height*0.15,
             child: new FlatButton(
-              onPressed: null,
+              onPressed: () {
+                Navigator.of(context).pushNamed(MapPage.tag);
+              },
               child: new ConstrainedBox(
                 constraints: new BoxConstraints.expand(),
                 child: Image(image: new AssetImage('assets/img/mapa.png')),
