@@ -4,13 +4,13 @@ import 'package:project/ui/pages/settings.dart';
 import 'package:project/ui/pages/home.dart' as home;
 import 'package:project/ui/pages/account_settings.dart';
 
-class MyHome extends StatefulWidget {
+class MyHome extends StatefulWidget  {
   static String tag = 'home-principal';
   @override
   HomePage createState() => new HomePage();
 }
 
-class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
+class HomePage extends State<MyHome> with SingleTickerProviderStateMixin  {
   final List<Tab> tabs = <Tab>[
     Tab(
       icon: new Icon(Icons.home),
