@@ -3,6 +3,7 @@ import 'package:project/ui/pages/account.dart';
 import 'package:project/ui/pages/settings.dart';
 import 'package:project/ui/pages/home.dart' as home;
 import 'package:project/ui/pages/account_settings.dart';
+import 'dart:io';
 
 class MyHome extends StatefulWidget {
   static String tag = 'home-principal';
@@ -44,7 +45,7 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
                 ),
                 FlatButton(
                   child: Text("Si"),
-                  onPressed: () => Navigator.pop(context, true),
+                  onPressed: () => exit(0),
                 ),
               ],
             ));
