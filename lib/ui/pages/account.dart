@@ -3,6 +3,8 @@ import 'package:project/login/home_page.dart';
 import 'package:project/login/register.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:project/model/user.dart';
+import 'package:sweetalert/sweetalert.dart';
+
 
 class LoginPage extends StatefulWidget {
   static String _username = "";
@@ -94,12 +96,10 @@ class AccountTab extends State<LoginPage> {
                 .whenComplete(() {
               mysql.getConnection()
                   ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
-                  : showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                            content: Text("Usuario o Contraseña incorrectos."));
-                      });
+                  : SweetAlert.show(context,
+                        title: "Error",
+                        subtitle: "Usuario o contraseña incorrectos!",
+                        style: SweetAlertStyle.error);
             });
           }
         },

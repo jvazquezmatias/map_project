@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:project/ui/pages/home.dart' as home;
 import 'package:project/ui/pages/home_page.dart';
+import 'package:sweetalert/sweetalert.dart';
 
 class AccountSettings extends StatefulWidget {
   static String tag = 'account-settings';
@@ -108,13 +109,14 @@ class AccountTabSettings extends State<AccountSettings> {
                                   child: Text('Aceptar'),
                                   onPressed: () {
                                     mysql
-                                        .query("UPDATE USERS SET PASSWORD='" +
-                                            newPassword +
-                                            "' WHERE USERNAME='" +
-                                            mysql.getUser().getUsername() +
-                                            "' AND EMAIL ='" +
-                                            mysql.getUser().getEmail() +
-                                            "'")
+                                        .queryChangePassword(
+                                            "UPDATE USERS SET PASSWORD='" +
+                                                newPassword +
+                                                "' WHERE USERNAME='" +
+                                                mysql.getUser().getUsername() +
+                                                "' AND EMAIL ='" +
+                                                mysql.getUser().getEmail() +
+                                                "'")
                                         .whenComplete(() {
                                       Navigator.of(context).pop();
                                     });
@@ -193,44 +195,26 @@ class AccountTabSettings extends State<AccountSettings> {
                         ),
                       ),
                       onTap: () {
-                        return showDialog<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                  'Seguro que quieres eliminar la cuenta?'),
-                              content:
-                                  const Text('Se borraran todos tus datos'),
-                              actions: <Widget>[
-                                FlatButton(
-                                  child: Text('No'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                FlatButton(
-                                  child: Text('Sí'),
-                                  onPressed: () {
-                                    mysql
-                                        .query(
-                                            "DELETE FROM USERS WHERE USERNAME = '" +
-                                                mysql.getUser().getUsername() +
-                                                "' AND EMAIL = '" +
-                                                mysql.getUser().getEmail() +
-                                                "'")
-                                        .whenComplete(() {
-                                      mysql.connection = false;
-                                      home.HomeTab.disabled = true;
-                                      mysql.user = null;
-                                      Navigator.of(context)
-                                          .pushNamed(MyHome.tag);
-                                    });
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                        SweetAlert.show(context,
+                            title: "Quieres eliminar la cuenta?",
+                            subtitle: "Se borraran todos tus datos",
+                            style: SweetAlertStyle.confirm,
+                            showCancelButton: true, onPress: (bool isConfirm) {
+                          if (isConfirm) {
+                            mysql
+                                .query("DELETE FROM USERS WHERE USERNAME = '" +
+                                    mysql.getUser().getUsername() +
+                                    "' AND EMAIL = '" +
+                                    mysql.getUser().getEmail() +
+                                    "'")
+                                .whenComplete(() {
+                              mysql.connection = false;
+                              home.HomeTab.disabled = true;
+                              mysql.user = null;
+                              Navigator.of(context).pushNamed(MyHome.tag);
+                            });
+                          }
+                        });
                       },
                     ),
                   ),

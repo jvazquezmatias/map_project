@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:project/ui/pages/home_page.dart';
 import 'package:project/ui/pages/account.dart';
+import 'package:sweetalert/sweetalert.dart';
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
@@ -11,15 +12,18 @@ class RegisterPage extends StatefulWidget {
 
 class Register extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-
   final nameValue = TextEditingController();
   final surnameValue = TextEditingController();
   final surname2Value = TextEditingController();
   final usernameValue = TextEditingController();
   final emailValue = TextEditingController();
   final passwordValue = TextEditingController();
+  bool comprovarMail = false;
+  bool insertarUsuario = false;
   @override
   Widget build(BuildContext context) {
+    // RegisterPage.comprovarMail = false;
+    //RegisterPage.insertarUsuario = false;
     Size size = MediaQuery.of(context).size;
     final logo = Hero(
       tag: 'hero',
@@ -160,21 +164,47 @@ class Register extends State<RegisterPage> {
         onPressed: () {
           if (_formKey.currentState.validate()) {
             mysql
-                .query("INSERT INTO USERS VALUES('" +
-                    nameValue.text +
-                    "','" +
-                    surnameValue.text +
-                    "','" +
-                    surname2Value.text +
-                    "','" +
+                .query("SELECT * FROM USERS WHERE USERNAME = '" +
                     usernameValue.text +
-                    "','" +
-                    emailValue.text +
-                    "','" +
-                    passwordValue.text +
-                    "')")
+                    "'")
                 .whenComplete(() {
-              Navigator.of(context).pop();
+              if (mysql.name != "") {
+                SweetAlert.show(context,
+                    title: "Error",
+                    subtitle: "Este nombre de usuario ya existe!",
+                    style: SweetAlertStyle.error);
+              } else {
+                mysql
+                    .query("SELECT * FROM USERS WHERE EMAIL = '" +
+                        emailValue.text +
+                        "'")
+                    .whenComplete(() {
+                  if (mysql.name != "") {
+                    SweetAlert.show(context,
+                        title: "Error",
+                        subtitle: "Este email ya existe!",
+                        style: SweetAlertStyle.error);
+                  } else {
+                    mysql
+                        .query("INSERT INTO USERS VALUES('" +
+                            nameValue.text +
+                            "','" +
+                            surnameValue.text +
+                            "','" +
+                            surname2Value.text +
+                            "','" +
+                            usernameValue.text +
+                            "','" +
+                            emailValue.text +
+                            "','" +
+                            passwordValue.text +
+                            "')")
+                        .whenComplete(() {
+                      Navigator.of(context).pop();
+                    });
+                  }
+                });
+              }
             });
           }
         },
