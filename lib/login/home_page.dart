@@ -31,7 +31,7 @@ class HomeLoginPage extends StatelessWidget {
     final successful = Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
-        'Has iniciado sesión correctamente.',
+        'Has iniciado sesión correctamente',
         style: TextStyle(fontSize: 16.0, color: Colors.white),
       ),
     );

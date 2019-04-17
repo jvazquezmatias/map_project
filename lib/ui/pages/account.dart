@@ -46,7 +46,7 @@ class AccountTab extends State<LoginPage> {
             // initialValue: 'pablo@gmail.com',
             controller: usernameValue,
             decoration: InputDecoration(
-              hintText: 'Username',
+              hintText: 'Usuario',
               contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
@@ -64,7 +64,7 @@ class AccountTab extends State<LoginPage> {
             obscureText: true,
             controller: passwordValue,
             decoration: InputDecoration(
-              hintText: 'Password',
+              hintText: 'Contraseña',
               contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
@@ -98,14 +98,14 @@ class AccountTab extends State<LoginPage> {
                   ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
                   : SweetAlert.show(context,
                         title: "Error",
-                        subtitle: "Usuario o contraseña incorrectos!",
+                        subtitle: "Usuario o contraseña incorrectos",
                         style: SweetAlertStyle.error);
             });
           }
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
-        child: Text('Log In', style: TextStyle(color: Colors.white)),
+        child: Text('Iniciar sesión', style: TextStyle(color: Colors.white)),
       ),
     );
 
@@ -121,13 +121,13 @@ class AccountTab extends State<LoginPage> {
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
-        child: Text('Register', style: TextStyle(color: Colors.white)),
+        child: Text('Registrar', style: TextStyle(color: Colors.white)),
       ),
     );
 
     final forgotLabel = FlatButton(
       child: Text(
-        'Forgot password?',
+        '¿Has olvidado la contraseña?',
         style: TextStyle(color: Colors.black54),
       ),
       onPressed: () {},

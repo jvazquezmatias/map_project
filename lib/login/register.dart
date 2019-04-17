@@ -69,7 +69,7 @@ class Register extends State<RegisterPage> {
             // initialValue: 'pablo@gmail.com',
             controller: surnameValue,
             decoration: InputDecoration(
-              hintText: 'Primer Apellido',
+              hintText: 'Primer apellido',
               contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
@@ -87,7 +87,7 @@ class Register extends State<RegisterPage> {
             // initialValue: 'pablo@gmail.com',
             controller: surname2Value,
             decoration: InputDecoration(
-              hintText: 'Segundo Apellido',
+              hintText: 'Segundo apellido',
               contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
@@ -171,7 +171,7 @@ class Register extends State<RegisterPage> {
               if (mysql.name != "") {
                 SweetAlert.show(context,
                     title: "Error",
-                    subtitle: "Este nombre de usuario ya existe!",
+                    subtitle: "El nombre de usuario ya existe!",
                     style: SweetAlertStyle.error);
               } else {
                 mysql

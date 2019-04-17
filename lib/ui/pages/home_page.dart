@@ -37,7 +37,7 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Seguro quieres cerrar la aplicación?"),
+              title: Text("¿Deseas cerrar la aplicación?"),
               actions: <Widget>[
                 FlatButton(
                   child: Text("No"),
@@ -56,7 +56,7 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
     final _appBar = AppBar(
       elevation: 5.0,
       leading: Icon(Icons.map),
-      title: Text('Parking Map'),
+      title: Text('SWYP'),
       backgroundColor: Colors.green,
       actions: <Widget>[
         IconButton(
@@ -66,7 +66,7 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Share Where Your Park'),
+                  title: Text('Share Where You Park'),
                   content: const Text(
                       'Version: 1.0 \n\nAutores:\n  Javier Vázquez\n  Pablo Sánchez'),
                   actions: <Widget>[

@@ -44,7 +44,7 @@ class SettingsTab extends State<SettingsPage> {
             },
             currentSelection: SettingsPage._indexTipoMapa,
           ),
-          CSHeader('Formato mapa:'),
+          CSHeader('Formato del mapa:'),
           CSSelection(
             ['Kilómetros', 'Millas'],
             (int value) {

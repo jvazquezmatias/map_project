@@ -17,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -35,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: <Widget>[
                       CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          radius: 200.0,
+                          radius: size.height * 100,
                           child: Image(
                               image: new AssetImage('assets/img/logoMap.png'))),
                       Padding(

@@ -71,7 +71,7 @@ class AccountTabSettings extends State<AccountSettings> {
                     child: GestureDetector(
                       child: Center(
                         child: Text(
-                          'Cambiar Contraseña',
+                          'Cambiar contraseña',
                           style: TextStyle(
                               color: Colors.white, fontFamily: 'Montserrat'),
                         ),
@@ -83,14 +83,14 @@ class AccountTabSettings extends State<AccountSettings> {
                               false, // dialog is dismissible with a tap on the barrier
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Cambiar Contraseña'),
+                              title: Text('Cambiar contraseña'),
                               content: new Row(
                                 children: <Widget>[
                                   new Expanded(
                                     child: new TextField(
                                       autofocus: true,
                                       decoration: new InputDecoration(
-                                          hintText: 'Nueva Contraseña'),
+                                          hintText: 'Nueva contraseña'),
                                       onChanged: (value) {
                                         newPassword = value;
                                       },
@@ -142,7 +142,7 @@ class AccountTabSettings extends State<AccountSettings> {
                     child: GestureDetector(
                       child: Center(
                         child: Text(
-                          'Cerrar Sesión',
+                          'Cerrar sesión',
                           style: TextStyle(
                               color: Colors.white, fontFamily: 'Montserrat'),
                         ),
@@ -152,7 +152,7 @@ class AccountTabSettings extends State<AccountSettings> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Seguro que quieres cerrar sesión?'),
+                              title: Text('¿Seguro que quieres cerrar sesión?'),
                               actions: <Widget>[
                                 FlatButton(
                                   child: Text('No'),
@@ -161,7 +161,7 @@ class AccountTabSettings extends State<AccountSettings> {
                                   },
                                 ),
                                 FlatButton(
-                                  child: Text('Sí'),
+                                  child: Text('Si'),
                                   onPressed: () {
                                     mysql.connection = false;
                                     home.HomeTab.disabled = true;
@@ -189,7 +189,7 @@ class AccountTabSettings extends State<AccountSettings> {
                     child: GestureDetector(
                       child: Center(
                         child: Text(
-                          'Eliminar Cuenta',
+                          'Eliminar cuenta',
                           style: TextStyle(
                               color: Colors.white, fontFamily: 'Montserrat'),
                         ),
