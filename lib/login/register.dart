@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:project/ui/pages/home_page.dart';
 import 'package:project/ui/pages/account.dart';
-import 'package:sweetalert/sweetalert.dart';
+import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
@@ -169,10 +169,14 @@ class Register extends State<RegisterPage> {
                     "'")
                 .whenComplete(() {
               if (mysql.name != "") {
-                SweetAlert.show(context,
-                    title: "Error",
-                    subtitle: "El nombre de usuario ya existe!",
-                    style: SweetAlertStyle.error);
+                SweetAlert.dialog(
+                  type: AlertType.ERROR,
+                  cancelable: true,
+                  title: "El usuario ya existe",
+                  showCancel: false,
+                  closeOnConfirm: true,
+                  confirmButtonText: "Aceptar",
+                );
               } else {
                 mysql
                     .query("SELECT * FROM USERS WHERE EMAIL = '" +
@@ -180,10 +184,14 @@ class Register extends State<RegisterPage> {
                         "'")
                     .whenComplete(() {
                   if (mysql.name != "") {
-                    SweetAlert.show(context,
-                        title: "Error",
-                        subtitle: "Este email ya existe!",
-                        style: SweetAlertStyle.error);
+                    SweetAlert.dialog(
+                      type: AlertType.ERROR,
+                      cancelable: true,
+                      title: "El email ya existe",
+                      showCancel: false,
+                      closeOnConfirm: true,
+                      confirmButtonText: "Aceptar",
+                    );
                   } else {
                     mysql
                         .query("INSERT INTO USERS VALUES('" +

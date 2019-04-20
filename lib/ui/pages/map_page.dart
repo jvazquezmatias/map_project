@@ -8,10 +8,11 @@ class MapPage extends StatefulWidget {
   static MapType tipusMapa = MapType.normal;
   @override
   MapUiPage createState() => new MapUiPage();
+  
 }
 
 class MapUiPage extends State<MapPage> {
-  static double numZoom = 14.4746;
+  static double numZoom = 14.4746;  
   static CameraPosition _position = CameraPosition(
     target: LatLng(41.38616, 2.1037613),
     zoom: numZoom,
@@ -55,7 +56,11 @@ class MapUiPage extends State<MapPage> {
             child: Icon(Icons.remove),
           ),
           SizedBox(height: 10),
-        ]));
+        ],
+        ),
+        
+        );
+        
   }
 
   Future<void> _zoomIn() async {
