@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:project/ui/pages/home.dart' as home;
 import 'package:project/ui/pages/home_page.dart';
-import 'package:sweetalert/sweetalert.dart';
+import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 
 class AccountSettings extends StatefulWidget {
   static String tag = 'account-settings';
@@ -88,6 +88,7 @@ class AccountTabSettings extends State<AccountSettings> {
                                 children: <Widget>[
                                   new Expanded(
                                     child: new TextField(
+                                      obscureText: true,
                                       autofocus: true,
                                       decoration: new InputDecoration(
                                           hintText: 'Nueva contraseña'),
@@ -118,6 +119,15 @@ class AccountTabSettings extends State<AccountSettings> {
                                                 mysql.getUser().getEmail() +
                                                 "'")
                                         .whenComplete(() {
+                                      SweetAlert.dialog(
+                                        type: AlertType.SUCCESS,
+                                        cancelable: true,
+                                        title:
+                                            "Contraseña cambiada correctamente",
+                                        showCancel: false,
+                                        closeOnConfirm: true,
+                                        confirmButtonText: "Aceptar",
+                                      );
                                       Navigator.of(context).pop();
                                     });
                                   },
@@ -148,31 +158,24 @@ class AccountTabSettings extends State<AccountSettings> {
                         ),
                       ),
                       onTap: () {
-                        return showDialog<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('¿Seguro que quieres cerrar sesión?'),
-                              actions: <Widget>[
-                                FlatButton(
-                                  child: Text('No'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                FlatButton(
-                                  child: Text('Si'),
-                                  onPressed: () {
-                                    mysql.connection = false;
-                                    home.HomeTab.disabled = true;
-                                    mysql.user = null;
-                                    Navigator.of(context).pushNamed(MyHome.tag);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                        SweetAlert.dialog(
+                          type: AlertType.WARNING,
+                          cancelable: true,
+                          title: "¿Seguro que quieres cerrar sesión?",
+                          content: " ",
+                          showCancel: true,
+                          cancelButtonText: "Cancelar",
+                          confirmButtonText: "Aceptar",
+                          closeOnConfirm: true,
+                          closeOnCancel: true,
+                        ).then((value) {
+                          if (value) {
+                            mysql.connection = false;
+                            home.HomeTab.disabled = true;
+                            mysql.user = null;
+                            Navigator.of(context).pushNamed(MyHome.tag);
+                          }
+                        });
                       },
                     ),
                   ),
@@ -195,12 +198,18 @@ class AccountTabSettings extends State<AccountSettings> {
                         ),
                       ),
                       onTap: () {
-                        SweetAlert.show(context,
-                            title: "Quieres eliminar la cuenta?",
-                            subtitle: "Se borraran todos tus datos",
-                            style: SweetAlertStyle.confirm,
-                            showCancelButton: true, onPress: (bool isConfirm) {
-                          if (isConfirm) {
+                        SweetAlert.dialog(
+                          type: AlertType.WARNING,
+                          cancelable: true,
+                          title: "¿Quieres eliminar la cuenta?",
+                          content: "Se borraran todos tus datos",
+                          showCancel: true,
+                          cancelButtonText: "Cancelar",
+                          confirmButtonText: "Aceptar",
+                          closeOnConfirm: false,
+                          closeOnCancel: true,
+                        ).then((value) {
+                          if (value) {
                             mysql
                                 .query("DELETE FROM USERS WHERE USERNAME = '" +
                                     mysql.getUser().getUsername() +
@@ -208,10 +217,20 @@ class AccountTabSettings extends State<AccountSettings> {
                                     mysql.getUser().getEmail() +
                                     "'")
                                 .whenComplete(() {
-                              mysql.connection = false;
-                              home.HomeTab.disabled = true;
-                              mysql.user = null;
-                              Navigator.of(context).pushNamed(MyHome.tag);
+                              SweetAlert.update(
+                                type: AlertType.SUCCESS,
+                                cancelable: true,
+                                title: "Cuenta borrada",
+                                content: " ",
+                                showCancel: false,
+                                closeOnConfirm: true,
+                                confirmButtonText: "Aceptar",
+                              ).then((value) {
+                                mysql.connection = false;
+                                home.HomeTab.disabled = true;
+                                mysql.user = null;
+                                Navigator.of(context).pushNamed(MyHome.tag);
+                              });
                             });
                           }
                         });

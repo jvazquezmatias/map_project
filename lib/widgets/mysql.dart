@@ -28,7 +28,6 @@ Future<String> query(var query) async {
 
   // Query the database using a parameterized query
   var results = await conn.query(query);
-  //print(results);
   for (var row in results) {
     name = row[0];
     surname = row[1];
@@ -38,7 +37,6 @@ Future<String> query(var query) async {
     password = row[5];
     connection = true;
   }
-  //print(getFinalizado());
   user = new User(
       name: name,
       surname: surname,
@@ -46,8 +44,6 @@ Future<String> query(var query) async {
       username: username,
       password: password,
       email: email);
-  print(name);
-
   // Finally, close the connection
   await conn.close();
 }

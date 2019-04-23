@@ -3,8 +3,7 @@ import 'package:project/login/home_page.dart';
 import 'package:project/login/register.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:project/model/user.dart';
-import 'package:sweetalert/sweetalert.dart';
-
+import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 
 class LoginPage extends StatefulWidget {
   static String _username = "";
@@ -33,7 +32,6 @@ class AccountTab extends State<LoginPage> {
         ),
       ),
     );
-    
 
     final form = Form(
       key: _formKey,
@@ -93,14 +91,20 @@ class AccountTab extends State<LoginPage> {
                     "' and password='" +
                     passwordValue.text +
                     "'")
-                .whenComplete(() {
-              mysql.getConnection()
-                  ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
-                  : SweetAlert.show(context,
-                        title: "Error",
-                        subtitle: "Usuario o contraseña incorrectos",
-                        style: SweetAlertStyle.error);
-            });
+                .whenComplete(
+              () {
+                mysql.getConnection()
+                    ? Navigator.of(context).pushNamed(HomeLoginPage.tag)
+                    : SweetAlert.dialog(
+                        type: AlertType.ERROR,
+                        cancelable: true,
+                        title: "Usuario o contraseña incorrecto",
+                        showCancel: false,
+                        closeOnConfirm: true,
+                        confirmButtonText: "Aceptar",
+                      );
+              },
+            );
           }
         },
         padding: EdgeInsets.all(12),
