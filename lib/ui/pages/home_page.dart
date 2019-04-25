@@ -3,6 +3,7 @@ import 'package:project/ui/pages/account.dart';
 import 'package:project/ui/pages/settings.dart';
 import 'package:project/ui/pages/home.dart' as home;
 import 'package:project/ui/pages/account_settings.dart';
+import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 import 'dart:io';
 
 class MyHome extends StatefulWidget {
@@ -34,21 +35,21 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
   }
 
   Future<bool> _onBackPressed() {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text("¿Deseas cerrar la aplicación?"),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("No"),
-                  onPressed: () => Navigator.pop(context, false),
-                ),
-                FlatButton(
-                  child: Text("Si"),
-                  onPressed: () => exit(0),
-                ),
-              ],
-            ));
+    SweetAlert.dialog(
+      type: AlertType.WARNING,
+      cancelable: true,
+      title: "¿Deseas cerrar la aplicación?",
+      content: " ",
+      showCancel: true,
+      cancelButtonText: "No",
+      confirmButtonText: "Si",
+      closeOnConfirm: true,
+      closeOnCancel: true,
+    ).then((value) {
+      if (value) {
+        exit(0);
+      }
+    });
   }
 
   @override

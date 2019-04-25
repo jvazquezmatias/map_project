@@ -164,8 +164,8 @@ class AccountTabSettings extends State<AccountSettings> {
                           title: "¿Seguro que quieres cerrar sesión?",
                           content: " ",
                           showCancel: true,
-                          cancelButtonText: "Cancelar",
-                          confirmButtonText: "Aceptar",
+                          cancelButtonText: "No",
+                          confirmButtonText: "Si",
                           closeOnConfirm: true,
                           closeOnCancel: true,
                         ).then((value) {
@@ -204,8 +204,8 @@ class AccountTabSettings extends State<AccountSettings> {
                           title: "¿Quieres eliminar la cuenta?",
                           content: "Se borraran todos tus datos",
                           showCancel: true,
-                          cancelButtonText: "Cancelar",
-                          confirmButtonText: "Aceptar",
+                          cancelButtonText: "No",
+                          confirmButtonText: "Si",
                           closeOnConfirm: false,
                           closeOnCancel: true,
                         ).then((value) {
