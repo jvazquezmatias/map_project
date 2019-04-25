@@ -4,6 +4,8 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
+import 'package:project/flutter_cupertino_settings.dart';
 
 class MapPage extends StatefulWidget {
   static int _indexFormatMap = 0;
@@ -15,6 +17,9 @@ class MapPage extends StatefulWidget {
 
 class MapUiPage extends State<MapPage> {
   static double numZoom = 14.4746;
+  bool _value1 = false;
+  bool _value2 = false;
+
   static CameraPosition _position = CameraPosition(
     target: LatLng(41.38616, 2.1037613),
     zoom: numZoom,
@@ -22,6 +27,7 @@ class MapUiPage extends State<MapPage> {
   Completer<GoogleMapController> _controller = Completer();
   GoogleMapController controllerMap;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -39,16 +45,54 @@ class MapUiPage extends State<MapPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-            heroTag: "buttonFormatMap",
+            heroTag: "buttonFilter",
             onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("Filtros"),
+                      content: Center(
+                        child: Column(
+                          children: <Widget>[
+                            CheckboxListTile(
+                              value: _value1,
+                              onChanged: (bool value) => setState(() {
+                                    _value1 = value;
+                                  }),
+                              title: Text('Parking'),
+                              controlAffinity: ListTileControlAffinity.leading,
+                              secondary: Icon(Icons.archive),
+                              activeColor: Colors.red,
+                            ),
+                            CheckboxListTile(
+                              value: _value2,
+                              onChanged: (bool value) => setState(() {
+                                    _value2 = value;
+                                  }),
+                              title: Text('Parking'),
+                              controlAffinity: ListTileControlAffinity.leading,
+                              secondary: Icon(Icons.archive),
+                              activeColor: Colors.red,
+                            ),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text("Aceptar"),
+                        ),
+                      ],
+                    );
+                  });
             },
             child: Icon(Icons.filter_list),
           ),
           SizedBox(height: size.height / 50),
           FloatingActionButton(
-            heroTag: "buttonFormatMap",
-            onPressed: () {
-            },
+            heroTag: "buttonAddLocation",
+            onPressed: () {},
             child: Icon(Icons.location_on),
           ),
           SizedBox(height: size.height / 2.3),
