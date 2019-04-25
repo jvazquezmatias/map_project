@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: <Widget>[
                       CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          radius: size.height * 100,
+                          radius: size.height / 6,
                           child: Image(
                               image: new AssetImage('assets/img/logoMap.png'))),
                       Padding(
