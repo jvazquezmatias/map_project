@@ -27,7 +27,7 @@ class AccountTab extends State<LoginPage> {
           onPressed: null,
           child: new ConstrainedBox(
             constraints: new BoxConstraints.expand(),
-            child: Image(image: new AssetImage('assets/img/logoMap.png')),
+            child: Image(image: new AssetImage('assets/img/logoMapBlack.png')),
           ),
         ),
       ),
