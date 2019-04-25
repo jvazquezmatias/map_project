@@ -24,6 +24,7 @@ class MapUiPage extends State<MapPage> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return new Scaffold(
       body: GoogleMap(
         mapType: MapPage.tipusMapa,
@@ -40,11 +41,25 @@ class MapUiPage extends State<MapPage> {
           FloatingActionButton(
             heroTag: "buttonFormatMap",
             onPressed: () {
+            },
+            child: Icon(Icons.filter_list),
+          ),
+          SizedBox(height: size.height / 50),
+          FloatingActionButton(
+            heroTag: "buttonFormatMap",
+            onPressed: () {
+            },
+            child: Icon(Icons.location_on),
+          ),
+          SizedBox(height: size.height / 2.3),
+          FloatingActionButton(
+            heroTag: "buttonFormatMap",
+            onPressed: () {
               _formatMap();
             },
-            child: Icon(Icons.map),
+            child: Icon(Icons.layers),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: size.height / 50),
           FloatingActionButton(
             heroTag: "buttonAdd",
             onPressed: () {
@@ -52,7 +67,7 @@ class MapUiPage extends State<MapPage> {
             },
             child: Icon(Icons.add),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: size.height / 50),
           FloatingActionButton(
             heroTag: "buttonRemove",
             onPressed: () {
@@ -60,7 +75,6 @@ class MapUiPage extends State<MapPage> {
             },
             child: Icon(Icons.remove),
           ),
-          SizedBox(height: 10),
         ],
       ),
     );
