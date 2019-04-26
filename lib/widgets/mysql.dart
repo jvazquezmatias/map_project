@@ -64,6 +64,32 @@ Future<String> queryChangePassword(var query) async {
   await conn.close();
 }
 
+Future<String> queryDownloadMarkers() async {
+  String id = "";
+  double latitud = 0;
+  double longitud = 0;
+  String icono = "";
+
+  // Open a connection (testdb should already exist) javi123456_
+  final conn = await MySqlConnection.connect(new ConnectionSettings(
+      host: 'labs.iam.cat',
+      port: 3306,
+      user: 'a17pabsanrod_adm',
+      password: 'pablo1234',
+      db: 'a17pabsanrod_projectefinal'));
+
+  // Query the database using a parameterized query
+  var results = await conn.query("SELECT * FROM MARKERS");
+  for (var row in results) {
+    id = row[0];
+    latitud = row[1];
+    longitud = row[2];
+    icono = row[3];
+  }
+  // Finally, close the connection
+  await conn.close();
+}
+
 User getUser() {
   return user;
 }

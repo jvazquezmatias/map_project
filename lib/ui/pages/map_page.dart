@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui';
 
 class MapPage extends StatefulWidget {
   static int _indexFormatMap = 0;
@@ -11,32 +8,33 @@ class MapPage extends StatefulWidget {
   static MapType tipusMapa = MapType.normal;
   @override
   MapUiPage createState() => new MapUiPage();
+  
 }
 
 class MapUiPage extends State<MapPage> {
   static double numZoom = 14.4746;
+  //static List<dynamic> listMarkers = new ArrayList<>();
   static CameraPosition _position = CameraPosition(
     target: LatLng(41.38616, 2.1037613),
     zoom: numZoom,
   );
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController controllerMap;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: GoogleMap(
-        mapType: MapPage.tipusMapa,
-        initialCameraPosition: _position,
-        onCameraMove: _updateCameraPosition,
-        onMapCreated: (controller) {
-          controllerMap = controller;
-        },
-        markers: Set<Marker>.of(markers.values),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
+        body: GoogleMap(
+          mapType: MapPage.tipusMapa,
+          initialCameraPosition: _position,
+          onCameraMove: _updateCameraPosition,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+            _addMarkers();
+          },
+          markers: Set<Marker>.of(markers.values),
+        ),
+        floatingActionButton:
+            Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
           FloatingActionButton(
             heroTag: "buttonFormatMap",
             onPressed: () {
@@ -62,8 +60,10 @@ class MapUiPage extends State<MapPage> {
           ),
           SizedBox(height: 10),
         ],
-      ),
-    );
+        ),
+        
+        );
+        
   }
 
   Future<void> _zoomIn() async {
@@ -107,25 +107,24 @@ class MapUiPage extends State<MapPage> {
     });
   }
 
-  // void _addMarkers() {
-  //   var markerIdVal = MyWayToGenerateId();
-  //   final MarkerId markerId = MarkerId(markerIdVal);
-  //   // creating a new MARKER
-  //   final Marker marker = Marker(
-  //     markerId: markerId,
-  //     position: LatLng(
-  //       center.latitude + sin(_markerIdCounter * pi / 6.0) / 20.0,
-  //       center.longitude + cos(_markerIdCounter * pi / 6.0) / 20.0,
-  //     ),
-  //     infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
-  //     onTap: () {
-  //       _onMarkerTapped(markerId);
-  //     },
-  //   );
+  void _addMarkers() {
+    var markerIdVal = "ausias";
+    final MarkerId markerId = MarkerId(markerIdVal);
 
-  //   setState(() {
-  //     // adding a new marker to map
-  //     markers[markerId] = marker;
-  //   });
-  // }
+    // creating a new MARKER
+    final Marker marker = Marker(
+      markerId: markerId,
+      position: LatLng(41.38616,  2.1037613),
+      onTap: () {
+        
+      },
+      
+    );
+
+    setState(() {
+      // adding a new marker to map
+      markers[markerId] = marker;
+    });
+}
+
 }
