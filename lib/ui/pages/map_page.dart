@@ -11,6 +11,11 @@ class MapPage extends StatefulWidget {
   static int _indexFormatMap = 0;
   static bool _value1 = false;
   static bool _value2 = false;
+  static bool _value3 = false;
+  static bool _value4 = false;
+  static bool _value5 = false;
+  static bool _value6 = false;
+  static bool _value7 = false;
   static String tag = 'map-page';
   static MapType tipusMapa = MapType.normal;
   @override
@@ -27,8 +32,6 @@ class MapUiPage extends State<MapPage> {
   Completer<GoogleMapController> _controller = Completer();
   GoogleMapController controllerMap;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -162,36 +165,93 @@ class DialogFilter extends StatefulWidget {
 }
 
 class _FilterDialog extends State<DialogFilter> {
-
   String _selectedId;
   @override
   Widget build(BuildContext context) {
     return new AlertDialog(
       title: new Text("Filters"),
       content: Center(
-        child: Column(
-          children: <Widget>[
-            CheckboxListTile(
-              value: MapPage._value1,
-              onChanged: (bool value) => setState(() {
-                    MapPage._value1 = value;
-                  }),
-              title: Text('Parking'),
-              controlAffinity: ListTileControlAffinity.leading,
-              secondary: Icon(Icons.archive),
-              activeColor: Colors.red,
-            ),
-            CheckboxListTile(
-              value: MapPage._value2,
-              onChanged: (bool value) => setState(() {
-                    MapPage._value2 = value;
-                  }),
-              title: Text('Parking'),
-              controlAffinity: ListTileControlAffinity.leading,
-              secondary: Icon(Icons.archive),
-              activeColor: Colors.red,
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              CheckboxListTile(
+                value: MapPage._value1,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value1 = value;
+                    }),
+                title: Text('Parking día y noche',
+                    style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value2,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value2 = value;
+                    }),
+                title:
+                    Text('Parking solo día', style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value3,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value3 = value;
+                    }),
+                title: Text('Rodeado de naturaleza',
+                    style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value4,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value4 = value;
+                    }),
+                title:
+                    Text('Área de servicios', style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value5,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value5 = value;
+                    }),
+                title: Text('Solución de problemas',
+                    style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value6,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value6 = value;
+                    }),
+                title: Text('Área autocaravanas pública gratuita',
+                    style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value7,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value7 = value;
+                    }),
+                title: Text('Zona de picnic', style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+            ],
+          ),
         ),
       ),
       actions: <Widget>[
