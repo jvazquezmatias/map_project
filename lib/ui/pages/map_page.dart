@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
+import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui';
+import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
+import 'package:project/flutter_cupertino_settings.dart';
 
 class MapPage extends StatefulWidget {
   static int _indexFormatMap = 0;
+  static bool _value1 = false;
+  static bool _value2 = false;
+  static bool _value3 = false;
+  static bool _value4 = false;
+  static bool _value5 = false;
+  static bool _value6 = false;
+  static bool _value7 = false;
   static String tag = 'map-page';
   static MapType tipusMapa = MapType.normal;
   @override
   MapUiPage createState() => new MapUiPage();
-  
 }
 
 class MapUiPage extends State<MapPage> {
@@ -20,29 +31,46 @@ class MapUiPage extends State<MapPage> {
   );
   Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return new Scaffold(
-        body: GoogleMap(
-          mapType: MapPage.tipusMapa,
-          initialCameraPosition: _position,
-          onCameraMove: _updateCameraPosition,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-            _addMarkers();
-          },
-          markers: Set<Marker>.of(markers.values),
-        ),
-        floatingActionButton:
-            Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+      body: GoogleMap(
+        mapType: MapPage.tipusMapa,
+        initialCameraPosition: _position,
+        onCameraMove: _updateCameraPosition,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+          _addMarkers();
+        },
+        markers: Set<Marker>.of(markers.values),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            heroTag: "buttonFilter",
+            onPressed: () {
+              showDialog(context: context, builder: (_) => DialogFilter());
+            },
+            child: Icon(Icons.filter_list),
+          ),
+          SizedBox(height: size.height / 50),
+          FloatingActionButton(
+            heroTag: "buttonAddLocation",
+            onPressed: () {},
+            child: Icon(Icons.location_on),
+          ),
+          SizedBox(height: size.height / 2.3),
           FloatingActionButton(
             heroTag: "buttonFormatMap",
             onPressed: () {
               _formatMap();
             },
-            child: Icon(Icons.map),
+            child: Icon(Icons.layers),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: size.height / 50),
           FloatingActionButton(
             heroTag: "buttonAdd",
             onPressed: () {
@@ -50,7 +78,7 @@ class MapUiPage extends State<MapPage> {
             },
             child: Icon(Icons.add),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: size.height / 50),
           FloatingActionButton(
             heroTag: "buttonRemove",
             onPressed: () {
@@ -58,12 +86,9 @@ class MapUiPage extends State<MapPage> {
             },
             child: Icon(Icons.remove),
           ),
-          SizedBox(height: 10),
         ],
-        ),
-        
-        );
-        
+      ),
+    );
   }
 
   Future<void> _zoomIn() async {
@@ -114,17 +139,122 @@ class MapUiPage extends State<MapPage> {
     // creating a new MARKER
     final Marker marker = Marker(
       markerId: markerId,
-      position: LatLng(41.38616,  2.1037613),
-      onTap: () {
-        
-      },
-      
+      position: LatLng(41.38616, 2.1037613),
+      onTap: () {},
     );
 
     setState(() {
       // adding a new marker to map
       markers[markerId] = marker;
     });
+  }
 }
 
+class DialogFilter extends StatefulWidget {
+  DialogFilter({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _FilterDialog createState() => new _FilterDialog();
+}
+
+class _FilterDialog extends State<DialogFilter> {
+  String _selectedId;
+  @override
+  Widget build(BuildContext context) {
+    return new AlertDialog(
+      title: new Text("Filters"),
+      content: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              CheckboxListTile(
+                value: MapPage._value1,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value1 = value;
+                    }),
+                title: Text('Parking día y noche',
+                    style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value2,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value2 = value;
+                    }),
+                title:
+                    Text('Parking solo día', style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value3,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value3 = value;
+                    }),
+                title: Text('Rodeado de naturaleza',
+                    style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value4,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value4 = value;
+                    }),
+                title:
+                    Text('Área de servicios', style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value5,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value5 = value;
+                    }),
+                title: Text('Solución de problemas',
+                    style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value6,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value6 = value;
+                    }),
+                title: Text('Área autocaravanas pública gratuita',
+                    style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+              CheckboxListTile(
+                value: MapPage._value7,
+                onChanged: (bool value) => setState(() {
+                      MapPage._value7 = value;
+                    }),
+                title: Text('Zona de picnic', style: TextStyle(fontSize: 12.0)),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
+                activeColor: Colors.red,
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text("Aceptar"),
+        ),
+      ],
+    );
+  }
 }

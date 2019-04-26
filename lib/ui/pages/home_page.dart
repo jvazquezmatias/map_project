@@ -57,6 +57,7 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
     final _appBar = AppBar(
       elevation: 5.0,
       leading: Icon(Icons.map),
+      titleSpacing: 0,
       title: Text('SWYP'),
       backgroundColor: Colors.green,
       actions: <Widget>[
