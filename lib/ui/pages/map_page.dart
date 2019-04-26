@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 import 'package:project/flutter_cupertino_settings.dart';
+import 'package:project/ui/pages/marker_details.dart';
 import 'package:project/model/my_marker.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 
@@ -142,14 +143,27 @@ class MapUiPage extends State<MapPage> {
     listMarkers.forEach((element) {
       var markerIdVal = element.getId();
       final MarkerId markerId = MarkerId(markerIdVal);
-
-      // creating a new MARKER
       final Marker marker = Marker(
-        markerId: markerId,
-        position: LatLng(element.getLatitud(), element.getLongitud()),
-        onTap: () {},
-      );
-
+          markerId: markerId,
+          icon: BitmapDescriptor.fromAsset(
+              "assets/img/icons/" + element.getIcono() + ".png"),
+          position: LatLng(element.getLatitud(), element.getLongitud()),
+          infoWindow: InfoWindow(
+              title: "Ausias March",
+              snippet: "pruebaa",
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MarkerDetails(
+                            id: element.getId(),
+                            latitud: element.getLatitud(),
+                            longitud: element.getLongitud(),
+                            icono: element.getIcono(),
+                            titulo: "Ausias March",
+                            descripcion: "Centro Educativo",
+                            estrellas: 4,
+                            imagen: "ausias.png",
+                          )))));
       setState(() {
         // adding a new marker to map
         markers[markerId] = marker;
