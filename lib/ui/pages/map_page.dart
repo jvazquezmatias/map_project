@@ -9,6 +9,8 @@ import 'package:project/flutter_cupertino_settings.dart';
 
 class MapPage extends StatefulWidget {
   static int _indexFormatMap = 0;
+  static bool _value1 = false;
+  static bool _value2 = false;
   static String tag = 'map-page';
   static MapType tipusMapa = MapType.normal;
   @override
@@ -17,8 +19,6 @@ class MapPage extends StatefulWidget {
 
 class MapUiPage extends State<MapPage> {
   static double numZoom = 14.4746;
-  bool _value1 = false;
-  bool _value2 = false;
 
   static CameraPosition _position = CameraPosition(
     target: LatLng(41.38616, 2.1037613),
@@ -27,6 +27,8 @@ class MapUiPage extends State<MapPage> {
   Completer<GoogleMapController> _controller = Completer();
   GoogleMapController controllerMap;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,45 +49,7 @@ class MapUiPage extends State<MapPage> {
           FloatingActionButton(
             heroTag: "buttonFilter",
             onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text("Filtros"),
-                      content: Center(
-                        child: Column(
-                          children: <Widget>[
-                            CheckboxListTile(
-                              value: _value1,
-                              onChanged: (bool value) => setState(() {
-                                    _value1 = value;
-                                  }),
-                              title: Text('Parking'),
-                              controlAffinity: ListTileControlAffinity.leading,
-                              secondary: Icon(Icons.archive),
-                              activeColor: Colors.red,
-                            ),
-                            CheckboxListTile(
-                              value: _value2,
-                              onChanged: (bool value) => setState(() {
-                                    _value2 = value;
-                                  }),
-                              title: Text('Parking'),
-                              controlAffinity: ListTileControlAffinity.leading,
-                              secondary: Icon(Icons.archive),
-                              activeColor: Colors.red,
-                            ),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text("Aceptar"),
-                        ),
-                      ],
-                    );
-                  });
+              showDialog(context: context, builder: (_) => DialogFilter());
             },
             child: Icon(Icons.filter_list),
           ),
@@ -186,4 +150,56 @@ class MapUiPage extends State<MapPage> {
   //     markers[markerId] = marker;
   //   });
   // }
+}
+
+class DialogFilter extends StatefulWidget {
+  DialogFilter({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _FilterDialog createState() => new _FilterDialog();
+}
+
+class _FilterDialog extends State<DialogFilter> {
+
+  String _selectedId;
+  @override
+  Widget build(BuildContext context) {
+    return new AlertDialog(
+      title: new Text("Filters"),
+      content: Center(
+        child: Column(
+          children: <Widget>[
+            CheckboxListTile(
+              value: MapPage._value1,
+              onChanged: (bool value) => setState(() {
+                    MapPage._value1 = value;
+                  }),
+              title: Text('Parking'),
+              controlAffinity: ListTileControlAffinity.leading,
+              secondary: Icon(Icons.archive),
+              activeColor: Colors.red,
+            ),
+            CheckboxListTile(
+              value: MapPage._value2,
+              onChanged: (bool value) => setState(() {
+                    MapPage._value2 = value;
+                  }),
+              title: Text('Parking'),
+              controlAffinity: ListTileControlAffinity.leading,
+              secondary: Icon(Icons.archive),
+              activeColor: Colors.red,
+            ),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text("Aceptar"),
+        ),
+      ],
+    );
+  }
 }
