@@ -1,6 +1,8 @@
 import 'package:project/model/user.dart';
 import 'dart:async';
 import 'package:mysql1/mysql1.dart';
+import 'package:project/model/my_marker.dart';
+import 'package:project/ui/pages/map_page.dart';
 
 User user;
 String name = "";
@@ -85,6 +87,8 @@ Future<String> queryDownloadMarkers() async {
     latitud = row[1];
     longitud = row[2];
     icono = row[3];
+    MyMarker marker = new MyMarker(id: id, latitud: latitud, longitud: longitud, icono: icono);
+    MapUiPage.listMarkers.add(marker);
   }
   // Finally, close the connection
   await conn.close();

@@ -1,10 +1,10 @@
-class Marker {
+class MyMarker {
   String id;
   double latitud;
   double longitud;
   String icono;
 
-  Marker(
+  MyMarker(
       {this.id,
       this.latitud,
       this.longitud,

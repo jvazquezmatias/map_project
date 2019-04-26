@@ -6,6 +6,8 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 import 'package:project/flutter_cupertino_settings.dart';
+import 'package:project/model/my_marker.dart';
+import 'package:project/widgets/mysql.dart' as mysql;
 
 class MapPage extends StatefulWidget {
   static int _indexFormatMap = 0;
@@ -24,7 +26,7 @@ class MapPage extends StatefulWidget {
 
 class MapUiPage extends State<MapPage> {
   static double numZoom = 14.4746;
-  //static List<dynamic> listMarkers = new ArrayList<>();
+  static List<MyMarker> listMarkers = new List();
   static CameraPosition _position = CameraPosition(
     target: LatLng(41.38616, 2.1037613),
     zoom: numZoom,
@@ -35,6 +37,7 @@ class MapUiPage extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return new Scaffold(
       body: GoogleMap(
         mapType: MapPage.tipusMapa,
@@ -42,7 +45,9 @@ class MapUiPage extends State<MapPage> {
         onCameraMove: _updateCameraPosition,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
-          _addMarkers();
+          mysql.queryDownloadMarkers().whenComplete(() {
+            _addMarkers();
+          });
         },
         markers: Set<Marker>.of(markers.values),
       ),
@@ -62,7 +67,7 @@ class MapUiPage extends State<MapPage> {
             onPressed: () {},
             child: Icon(Icons.location_on),
           ),
-          SizedBox(height: size.height / 2.3),
+          SizedBox(height: size.height / 2.6),
           FloatingActionButton(
             heroTag: "buttonFormatMap",
             onPressed: () {
@@ -86,6 +91,7 @@ class MapUiPage extends State<MapPage> {
             },
             child: Icon(Icons.remove),
           ),
+          SizedBox(height: size.height / 15),
         ],
       ),
     );
@@ -133,19 +139,21 @@ class MapUiPage extends State<MapPage> {
   }
 
   void _addMarkers() {
-    var markerIdVal = "ausias";
-    final MarkerId markerId = MarkerId(markerIdVal);
+    listMarkers.forEach((element) {
+      var markerIdVal = element.getId();
+      final MarkerId markerId = MarkerId(markerIdVal);
 
-    // creating a new MARKER
-    final Marker marker = Marker(
-      markerId: markerId,
-      position: LatLng(41.38616, 2.1037613),
-      onTap: () {},
-    );
+      // creating a new MARKER
+      final Marker marker = Marker(
+        markerId: markerId,
+        position: LatLng(element.getLatitud(), element.getLongitud()),
+        onTap: () {},
+      );
 
-    setState(() {
-      // adding a new marker to map
-      markers[markerId] = marker;
+      setState(() {
+        // adding a new marker to map
+        markers[markerId] = marker;
+      });
     });
   }
 }
