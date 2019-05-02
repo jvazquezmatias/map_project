@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:project/model/my_marker.dart';
-import 'package:project/widgets/mysql.dart' as mysql;
-import 'dart:async';
 import 'package:mysql1/mysql1.dart';
+import 'package:project/ui/pages/marker_details.dart';
+
 
 class SearchPage extends StatefulWidget {
-  // ExamplePage({ Key key }) : super(key: key);
   static String tag = 'search-page';
   @override
   SearchPageState createState() => new SearchPageState();
 }
 
 class SearchPageState extends State<SearchPage> {
-  // final formKey = new GlobalKey<FormState>();
-  // final key = new GlobalKey<ScaffoldState>();
   final TextEditingController _filter = new TextEditingController();
   final marker = new MyMarker();
   String _searchText = "";
-  List names = new List();
-  List filteredNames = new List();
+  List<MyMarker> names = new List();
+  List<MyMarker> filteredNames = new List();
   Icon _searchIcon = new Icon(Icons.search);
   Widget _appBarTitle = new Text('Buscar');
 
@@ -68,7 +65,7 @@ class SearchPageState extends State<SearchPage> {
     if (!(_searchText.isEmpty)) {
       List tempList = new List();
       for (int i = 0; i < filteredNames.length; i++) {
-        if (filteredNames[i]
+        if (filteredNames[i].getTitulo()
             .toLowerCase()
             .contains(_searchText.toLowerCase())) {
           tempList.add(filteredNames[i]);
@@ -80,8 +77,22 @@ class SearchPageState extends State<SearchPage> {
       itemCount: names == null ? 0 : filteredNames.length,
       itemBuilder: (BuildContext context, int index) {
         return new ListTile(
-          title: Text(filteredNames[index]),
-          onTap: () => print(filteredNames[index]),
+          title: Text(filteredNames[index].getTitulo()),
+          onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PageMarkerDetails(
+                          id: filteredNames[index].getId(),
+                          latitud: filteredNames[index].getLatitud(),
+                          longitud: filteredNames[index].getLongitud(),
+                          icono: filteredNames[index].getIcono(),
+                          titulo: filteredNames[index].getTitulo(),
+                          descripcion: filteredNames[index].getDescripcion(),
+                          estrellas: filteredNames[index].getEstrellas(),
+                          imagen: filteredNames[index].getImagen(),
+                        ),
+                  ),
+                ),
         );
       },
     );
@@ -115,7 +126,6 @@ class SearchPageState extends State<SearchPage> {
     int estrellas = 0;
     String imagen = "";
 
-    // Open a connection (testdb should already exist) javi123456_
     final conn = await MySqlConnection.connect(new ConnectionSettings(
         host: 'labs.iam.cat',
         port: 3306,
@@ -123,7 +133,6 @@ class SearchPageState extends State<SearchPage> {
         password: 'pablo1234',
         db: 'a17pabsanrod_projectefinal'));
 
-    // Query the database using a parameterized query
     var results = await conn
         .query("SELECT * FROM MARKERS m JOIN MARKERS_INFO i ON m.ID=i.ID");
     for (var row in results) {
@@ -143,13 +152,12 @@ class SearchPageState extends State<SearchPage> {
           descripcion: descripcion,
           estrellas: estrellas);
       setState(() {
-        names.add(marker.getTitulo());
+        names.add(marker);
         names.shuffle();
         filteredNames = names;
       });
     }
 
-    // Finally, close the connection
     await conn.close();
   }
 }
