@@ -14,8 +14,8 @@ class SearchPageState extends State<SearchPage> {
   final TextEditingController _filter = new TextEditingController();
   final marker = new MyMarker();
   String _searchText = "";
-  List<MyMarker> names = new List();
-  List<MyMarker> filteredNames = new List();
+  List<dynamic> names = new List();
+  List<dynamic> filteredNames = new List();
   Icon _searchIcon = new Icon(Icons.search);
   Widget _appBarTitle = new Text('Buscar');
 
