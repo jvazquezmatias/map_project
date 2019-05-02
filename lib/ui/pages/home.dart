@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/ui/pages/map_page.dart';
+import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 
 class HomeTab extends StatelessWidget {
   static String tag = 'my-home';
@@ -18,7 +19,7 @@ class HomeTab extends StatelessWidget {
         padding: EdgeInsets.all(20.0),
         children: <Widget>[
           Container(
-            height: size.height*0.15,
+            height: size.height * 0.15,
             child: new FlatButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(MapPage.tag);
@@ -30,8 +31,8 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: size.height*0.03),
-            height: size.height*0.15,
+            margin: EdgeInsets.only(top: size.height * 0.03),
+            height: size.height * 0.15,
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
@@ -41,8 +42,8 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: size.height*0.03),
-            height: size.height*0.15,
+            margin: EdgeInsets.only(top: size.height * 0.03),
+            height: size.height * 0.15,
             child: new FlatButton(
               onPressed: null,
               child: new ConstrainedBox(
@@ -52,17 +53,37 @@ class HomeTab extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: size.height*0.03),
-            height: size.height*0.15,
-            child: new FlatButton(
-              onPressed: null,
-              child: new ConstrainedBox(
-                constraints: new BoxConstraints.expand(),
-                child: disabled
-                    ? Image(image: new AssetImage('assets/img/favoritos.png'))
-                    : Image(image: new AssetImage('assets/img/favoritos.png')),
-              ),
-            ),
+            margin: EdgeInsets.only(top: size.height * 0.03),
+            height: size.height * 0.15,
+            child: disabled
+                ? FlatButton(
+                    onPressed: () {
+                      SweetAlert.dialog(
+                        type: AlertType.ERROR,
+                        cancelable: true,
+                        title: "Inicia sesión para ver tus favoritos",
+                        showCancel: false,
+                        closeOnConfirm: true,
+                        confirmButtonText: "Aceptar",
+                      );
+                    },
+                    child: new ConstrainedBox(
+                      constraints: new BoxConstraints.expand(),
+                      child: Image(
+                        image:
+                            new AssetImage('assets/img/favoritosDisabled.png'),
+                      ),
+                    ),
+                  )
+                : FlatButton(
+                    onPressed: null,
+                    child: new ConstrainedBox(
+                      constraints: new BoxConstraints.expand(),
+                      child: Image(
+                        image: new AssetImage('assets/img/favoritos.png'),
+                      ),
+                    ),
+                  ),
           ),
         ],
       ),
