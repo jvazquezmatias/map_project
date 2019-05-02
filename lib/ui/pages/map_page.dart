@@ -186,7 +186,7 @@ class _FilterDialog extends State<DialogFilter> {
   @override
   Widget build(BuildContext context) {
     return new AlertDialog(
-      title: new Text("Filters"),
+      title: new Text("Filtros"),
       content: Center(
         child: SingleChildScrollView(
           child: Column(
