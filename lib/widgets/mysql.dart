@@ -146,8 +146,8 @@ Future<String> queryDownloadMarkersAndFilter() async {
   var results;
   // Query the database using a parameterized query´
   if (condicion == "") {
-    results = await conn
-        .query("SELECT * FROM MARKERS m JOIN MARKERS_INFO i ON m.ID=i.ID where m.ID='XDDD'");
+    results = await conn.query(
+        "SELECT * FROM MARKERS m JOIN MARKERS_INFO i ON m.ID=i.ID where m.ID='XDDD'");
   } else {
     results = await conn.query(
         "SELECT * FROM MARKERS m JOIN MARKERS_INFO i ON m.ID=i.ID WHERE " +
