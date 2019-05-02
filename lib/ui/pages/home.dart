@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/ui/pages/map_page.dart';
 import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
+import 'package:project/ui/pages/search_page.dart';
 
 class HomeTab extends StatelessWidget {
   static String tag = 'my-home';
@@ -45,7 +46,9 @@ class HomeTab extends StatelessWidget {
             margin: EdgeInsets.only(top: size.height * 0.03),
             height: size.height * 0.15,
             child: new FlatButton(
-              onPressed: null,
+              onPressed: () {
+                Navigator.of(context).pushNamed(SearchPage.tag);
+              },
               child: new ConstrainedBox(
                 constraints: new BoxConstraints.expand(),
                 child: Image(image: new AssetImage('assets/img/busqueda.png')),

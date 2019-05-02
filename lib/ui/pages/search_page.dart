@@ -6,6 +6,7 @@ import 'package:mysql1/mysql1.dart';
 
 class SearchPage extends StatefulWidget {
   // ExamplePage({ Key key }) : super(key: key);
+  static String tag = 'search-page';
   @override
   SearchPageState createState() => new SearchPageState();
 }
