@@ -142,12 +142,13 @@ class SearchPageState extends State<SearchPage> {
           titulo: titulo,
           descripcion: descripcion,
           estrellas: estrellas);
+      setState(() {
+        names.add(marker.getTitulo());
+        names.shuffle();
+        filteredNames = names;
+      });
     }
-    setState(() {
-      names.add(marker.getTitulo());
-      names.shuffle();
-      filteredNames = names;
-    });
+
     // Finally, close the connection
     await conn.close();
   }
