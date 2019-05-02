@@ -3,12 +3,19 @@ class MyMarker {
   double latitud;
   double longitud;
   String icono;
+  String titulo;
+  String descripcion;
+  int estrellas;
+  String imagen = "";
 
   MyMarker(
       {this.id,
       this.latitud,
       this.longitud,
-      this.icono});
+      this.icono,
+      this.titulo,
+      this.descripcion,
+      this.estrellas});
 
   String getId() {
     return id;
@@ -24,5 +31,21 @@ class MyMarker {
 
   String getIcono() {
     return icono;
+  }
+
+  String getTitulo() {
+    return titulo;
+  }
+
+  String getDescripcion() {
+    return descripcion;
+  }
+
+  int getEstrellas() {
+    return estrellas;
+  }
+
+  String getImagen() {
+    return imagen;
   }
 }
