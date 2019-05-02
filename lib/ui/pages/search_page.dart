@@ -22,7 +22,7 @@ class SearchPageState extends State<SearchPage> {
   Icon _searchIcon = new Icon(Icons.search);
   Widget _appBarTitle = new Text('Buscar');
 
-  _ExamplePageState() {
+  SearchPageState() {
     _filter.addListener(() {
       if (_filter.text.isEmpty) {
         setState(() {
@@ -143,13 +143,12 @@ class SearchPageState extends State<SearchPage> {
           descripcion: descripcion,
           estrellas: estrellas);
     }
-    // Finally, close the connection
-    await conn.close();
-
     setState(() {
       names.add(marker.getTitulo());
       names.shuffle();
       filteredNames = names;
     });
+    // Finally, close the connection
+    await conn.close();
   }
 }
