@@ -68,7 +68,7 @@ class SearchPageState extends State<SearchPage> {
     if (!(_searchText.isEmpty)) {
       List tempList = new List();
       for (int i = 0; i < filteredNames.length; i++) {
-        if (filteredNames[i]['titulo']
+        if (filteredNames[i]
             .toLowerCase()
             .contains(_searchText.toLowerCase())) {
           tempList.add(filteredNames[i]);
@@ -80,8 +80,8 @@ class SearchPageState extends State<SearchPage> {
       itemCount: names == null ? 0 : filteredNames.length,
       itemBuilder: (BuildContext context, int index) {
         return new ListTile(
-          title: Text(filteredNames[index]['titulo']),
-          onTap: () => print(filteredNames[index]['titulo']),
+          title: Text(filteredNames[index]),
+          onTap: () => print(filteredNames[index]),
         );
       },
     );
