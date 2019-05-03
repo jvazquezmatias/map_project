@@ -63,7 +63,7 @@ class MapUiPage extends State<MapPage> {
               _updateCameraPosition;
               actualPosition = position.target;
               if (MapPage.newMarker != null) {
-                //markers[MapPage.newMarkerId].position.latitude = actualPosition.latitude;
+                _updateMarkerPosition(_position);
               }
             },
             onMapCreated: (GoogleMapController controller) {
@@ -261,7 +261,7 @@ class MapUiPage extends State<MapPage> {
     });
   }
 
-  void _updatePosition(CameraPosition _position) {
+  void _updateMarkerPosition(CameraPosition _position) {
     LatLng newMarkerPosition = LatLng(
          _position.target.latitude,
          _position.target.longitude);
