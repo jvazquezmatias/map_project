@@ -62,6 +62,9 @@ class MapUiPage extends State<MapPage> {
             onCameraMove: (position) {
               _updateCameraPosition;
               actualPosition = position.target;
+              if (MapPage.newMarker != null) {
+                //markers[MapPage.newMarkerId].position.latitude = actualPosition.latitude;
+              }
             },
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
@@ -252,8 +255,21 @@ class MapUiPage extends State<MapPage> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
       );
       markers[MapPage.newMarkerId] = (MapPage.newMarker);
+      // print("Position Marker: " +
+      //     markers[MapPage.newMarkerId].position.toString());
+      // print("Actual Position: " + actualPosition.toString());
+    });
+  }
 
-      print(actualPosition);
+  void _updatePosition(CameraPosition _position) {
+    LatLng newMarkerPosition = LatLng(
+         _position.target.latitude,
+         _position.target.longitude);
+    Marker marker = markers[MapPage.newMarkerId];
+
+    setState(() {
+      markers[MapPage.newMarkerId] = marker.copyWith(
+          positionParam: LatLng(newMarkerPosition.latitude, newMarkerPosition.longitude));
     });
   }
 
