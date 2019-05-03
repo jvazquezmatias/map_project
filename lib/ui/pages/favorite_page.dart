@@ -20,7 +20,7 @@ class FavoritePageState extends State<FavoritePage> {
   Icon _searchIcon = new Icon(Icons.search);
   Widget _appBarTitle = new Text('Favoritos');
 
-  SearchPageState() {
+  FavoritePageState() {
     _filter.addListener(() {
       if (_filter.text.isEmpty) {
         setState(() {

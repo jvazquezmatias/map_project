@@ -15,6 +15,7 @@ class AccountTabSettings extends State<AccountSettings> {
   String newPassword = '';
   @override
   Widget build(BuildContext context) {
+    Size sizeMedia = MediaQuery.of(context).size;
     return new Scaffold(
       body: new Stack(
         children: <Widget>[
@@ -24,12 +25,12 @@ class AccountTabSettings extends State<AccountSettings> {
           ),
           Positioned(
             width: 390,
-            top: MediaQuery.of(context).size.height / 7,
+            top: sizeMedia.height * 0.04,
             child: Column(
               children: <Widget>[
                 Container(
-                  width: 150.0,
-                  height: 150.0,
+                  width: sizeMedia.width * 0.40,
+                  height: sizeMedia.height * 0.25,
                   decoration: BoxDecoration(
                       color: Colors.red,
                       image: DecorationImage(
@@ -41,7 +42,7 @@ class AccountTabSettings extends State<AccountSettings> {
                         BoxShadow(blurRadius: 7.0, color: Colors.black)
                       ]),
                 ),
-                SizedBox(height: 40.0),
+                SizedBox(height: sizeMedia.height * 0.03),
                 Text(
                   mysql.getUser().getName() +
                       " " +
@@ -51,7 +52,7 @@ class AccountTabSettings extends State<AccountSettings> {
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Montserrat'),
                 ),
-                SizedBox(height: 15.0),
+                SizedBox(height: sizeMedia.height * 0.01),
                 Text(
                   mysql.getUser().getEmail(),
                   style: TextStyle(
@@ -61,8 +62,8 @@ class AccountTabSettings extends State<AccountSettings> {
                 ),
                 SizedBox(height: 25.0),
                 Container(
-                  height: 30.0,
-                  width: 140.0,
+                  height: sizeMedia.height * 0.06,
+                  width: sizeMedia.width * 0.4,
                   child: Material(
                     borderRadius: BorderRadius.circular(20.0),
                     shadowColor: Colors.greenAccent,
@@ -140,10 +141,10 @@ class AccountTabSettings extends State<AccountSettings> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25.0),
+                SizedBox(height: sizeMedia.height * 0.03),
                 Container(
-                  height: 30.0,
-                  width: 115.0,
+                  height: sizeMedia.height * 0.06,
+                  width: sizeMedia.width * 0.3,
                   child: Material(
                     borderRadius: BorderRadius.circular(20.0),
                     shadowColor: Colors.redAccent,
@@ -180,10 +181,10 @@ class AccountTabSettings extends State<AccountSettings> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25.0),
+                SizedBox(height: sizeMedia.height * 0.03),
                 Container(
-                  height: 30.0,
-                  width: 115.0,
+                  height: sizeMedia.height * 0.06,
+                  width: sizeMedia.width * 0.35,
                   child: Material(
                     borderRadius: BorderRadius.circular(20.0),
                     shadowColor: Colors.redAccent,
@@ -252,8 +253,8 @@ class getClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     var path = new Path();
 
-    path.lineTo(0.0, size.height / 1.6);
-    path.lineTo(size.width + 125, 0.0);
+    path.lineTo(0.0, size.height * 0.4);
+    path.lineTo(size.width + 100, 0.0);
     path.close();
     return path;
   }
