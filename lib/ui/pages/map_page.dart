@@ -340,8 +340,10 @@ class MapUiPage extends State<MapPage> {
               "assets/img/icons/" + element.getIcono() + ".png"),
           position: LatLng(element.getLatitud(), element.getLongitud()),
           infoWindow: InfoWindow(
-            title: "Ausias March",
-            snippet: "pruebaa",
+            title: element.getTitulo(),
+            snippet: element.getDescripcion().length > 30
+                ? element.getDescripcion().substring(0, 30) + ".."
+                : element.getDescripcion(),
             onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
