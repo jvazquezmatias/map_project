@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/ui/pages/map_page.dart';
 import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 import 'package:project/ui/pages/search_page.dart';
+import 'package:project/ui/pages/favorite_page.dart';
 
 class HomeTab extends StatelessWidget {
   static String tag = 'my-home';
@@ -79,7 +80,8 @@ class HomeTab extends StatelessWidget {
                     ),
                   )
                 : FlatButton(
-                    onPressed: null,
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(FavoritePage.tag),
                     child: new ConstrainedBox(
                       constraints: new BoxConstraints.expand(),
                       child: Image(

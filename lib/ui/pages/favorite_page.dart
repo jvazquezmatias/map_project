@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:project/model/my_marker.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:project/ui/pages/marker_details.dart';
+import 'package:project/widgets/mysql.dart' as mysql;
+import 'package:flutter/src/widgets/basic.dart' as basic;
 
-class SearchPage extends StatefulWidget {
-  static String tag = 'search-page';
+class FavoritePage extends StatefulWidget {
+  static String tag = 'favorite-page';
   @override
-  SearchPageState createState() => new SearchPageState();
+  FavoritePageState createState() => new FavoritePageState();
 }
 
-class SearchPageState extends State<SearchPage> {
+class FavoritePageState extends State<FavoritePage> {
   final TextEditingController _filter = new TextEditingController();
   final marker = new MyMarker();
   String _searchText = "";
   List<dynamic> names = new List();
   List<dynamic> filteredNames = new List();
   Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text('Buscar');
+  Widget _appBarTitle = new Text('Favoritos');
 
   SearchPageState() {
     _filter.addListener(() {
@@ -53,7 +55,7 @@ class SearchPageState extends State<SearchPage> {
     return new AppBar(
       centerTitle: true,
       title: _appBarTitle,
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Colors.yellow,
       leading: new IconButton(
         icon: _searchIcon,
         onPressed: _searchPressed,
@@ -77,24 +79,48 @@ class SearchPageState extends State<SearchPage> {
     return ListView.builder(
       itemCount: names == null ? 0 : filteredNames.length,
       itemBuilder: (BuildContext context, int index) {
-        return new ListTile(
-          title: Text(filteredNames[index].getTitulo()),
-          onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PageMarkerDetails(
-                        id: filteredNames[index].getId(),
-                        latitud: filteredNames[index].getLatitud(),
-                        longitud: filteredNames[index].getLongitud(),
-                        icono: filteredNames[index].getIcono(),
-                        titulo: filteredNames[index].getTitulo(),
-                        descripcion: filteredNames[index].getDescripcion(),
-                        estrellas: filteredNames[index].getEstrellas(),
-                        imagen: filteredNames[index].getImagen(),
-                      ),
+        Size size = MediaQuery.of(context).size;
+        return new GestureDetector(
+            onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PageMarkerDetails(
+                          id: filteredNames[index].getId(),
+                          latitud: filteredNames[index].getLatitud(),
+                          longitud: filteredNames[index].getLongitud(),
+                          icono: filteredNames[index].getIcono(),
+                          titulo: filteredNames[index].getTitulo(),
+                          descripcion: filteredNames[index].getDescripcion(),
+                          estrellas: filteredNames[index].getEstrellas(),
+                          imagen: filteredNames[index].getImagen(),
+                        ),
+                  ),
+                ),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 1.0),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20.0),
+                child: basic.Row(
+                  children: <Widget>[
+                    Container(
+                        width: size.width * 0.77,
+                        child: Text(
+                          filteredNames[index].getTitulo(),
+                          style: TextStyle(fontSize: 18.0),
+                        )),
+                    new Image(
+                      image: new AssetImage("assets/img/icons/" +
+                          filteredNames[index].getIcono() +
+                          ".png"),
+                      width: size.width * 0.05,
+                    )
+                  ],
                 ),
               ),
-        );
+            ));
       },
     );
   }
@@ -110,7 +136,7 @@ class SearchPageState extends State<SearchPage> {
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text('Buscar');
+        this._appBarTitle = new Text('Favoritos');
         filteredNames = names;
         _filter.clear();
       }
@@ -134,16 +160,18 @@ class SearchPageState extends State<SearchPage> {
         password: 'pablo1234',
         db: 'a17pabsanrod_projectefinal'));
 
-    var results = await conn
-        .query("SELECT * FROM MARKERS m JOIN MARKERS_INFO i ON m.ID=i.ID");
+    var results = await conn.query(
+        "SELECT m.ID,m.LATITUD,m.LONGITUD,m.ICONO,i.TITULO,i.DESCRIPCION,i.ESTRELLAS FROM USERS_FAVORITES_MARKERS f JOIN MARKERS m ON f.IDMARKER = m.ID JOIN USERS u ON f.USERNAME = u.USERNAME JOIN MARKERS_INFO i ON m.ID=i.ID WHERE u.USERNAME = '" +
+            mysql.getUser().username.toString() +
+            "'");
     for (var row in results) {
       id = row[0];
       latitud = row[1];
       longitud = row[2];
       icono = row[3];
-      titulo = row[5];
-      descripcion = row[6];
-      estrellas = row[7];
+      titulo = row[4];
+      descripcion = row[5];
+      estrellas = row[6];
       MyMarker marker = new MyMarker(
           id: id,
           latitud: latitud,
@@ -158,7 +186,6 @@ class SearchPageState extends State<SearchPage> {
         filteredNames = names;
       });
     }
-
     await conn.close();
   }
 }
