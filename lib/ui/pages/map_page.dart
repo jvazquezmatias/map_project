@@ -21,7 +21,7 @@ class MapPage extends StatefulWidget {
 
   static bool mostrarBotonesAbajo = false;
   static bool verBotonesAbajo = false;
-  
+
   static BuildContext context;
   static List<String> filtrosActivos;
   static String tag = 'map-page';
@@ -70,9 +70,7 @@ class MapUiPage extends State<MapPage> {
             },
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
-              mysql.queryDownloadMarkers().whenComplete(() {
-                _addMarkers();
-              });
+              cargarMarkersConFilros();
             },
             markers: Set<Marker>.of(markers.values),
           ),
@@ -370,6 +368,24 @@ class MapUiPage extends State<MapPage> {
       },
     );
   }
+
+  void cargarMarkersConFilros() {
+    setState(() {
+      MapUiPage.listMarkers.clear();
+      markers.clear();
+    });
+    MapPage.filtrosActivos = new List();
+    if (MapPage.parkingDiaYNoche)
+      MapPage.filtrosActivos.add(mysql.parkingDiaNoche);
+    if (MapPage.parkingSoloDia)
+      MapPage.filtrosActivos.add(mysql.parkingSoloDia);
+
+    if (MapPage.filtrosActivos.isNotEmpty) {
+      mysql.queryDownloadMarkersAndFilter().whenComplete(() {
+        _addMarkers();
+      });
+    }
+  }
 }
 
 class DialogFilter extends StatefulWidget {
@@ -478,22 +494,7 @@ class _FilterDialog extends State<DialogFilter> {
       actions: <Widget>[
         FlatButton(
           onPressed: () {
-            mapPage.setState(() {
-              MapUiPage.listMarkers.clear();
-              mapPage.markers.clear();
-            });
-            MapPage.filtrosActivos = new List();
-            if (MapPage.parkingDiaYNoche)
-              MapPage.filtrosActivos.add(mysql.parkingDiaNoche);
-            if (MapPage.parkingSoloDia)
-              MapPage.filtrosActivos.add(mysql.parkingSoloDia);
-
-            if (MapPage.filtrosActivos.isNotEmpty) {
-              mysql.queryDownloadMarkersAndFilter().whenComplete(() {
-                mapPage._addMarkers();
-              });
-            }
-
+            mapPage.cargarMarkersConFilros();
             Navigator.pop(context);
           },
           child: Text("Aceptar"),
@@ -539,7 +540,6 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
               autofocus: false,
               controller: nombreLugar,
               maxLines: 1,
-              
               decoration: InputDecoration(
                 hintText: 'Nombre del lugar',
                 hintStyle: TextStyle(
@@ -565,16 +565,14 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
               padding: EdgeInsets.only(left: 30.0, right: 30.0),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: "Add Review",
+                  hintText: "Descripcion del sitio",
                   border: InputBorder.none,
                 ),
                 maxLines: 8,
               ),
             ),
             InkWell(
-              onTap: (){
-                print("HOLA CARACOLA");
-              },
+              onTap: () {},
               child: Container(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 decoration: BoxDecoration(
@@ -584,7 +582,7 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
                       bottomRight: Radius.circular(32.0)),
                 ),
                 child: Text(
-                  "Rate Product",
+                  "Guardar",
                   style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
