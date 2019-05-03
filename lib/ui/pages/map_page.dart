@@ -136,60 +136,75 @@ class MapUiPage extends State<MapPage> {
               : Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    FloatingActionButton(
-                      heroTag: "buttonFilter",
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (_) => DialogFilter(
-                                key: Key("filtros"),
-                                title: "filtosTitulo",
-                                pageMap: this));
-                      },
-                      child: Icon(Icons.filter_list),
-                    ),
+                    Container(
+                        height: size.height * 0.1,
+                        child: FittedBox(
+                            child: FloatingActionButton(
+                          heroTag: "buttonFilter",
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) => DialogFilter(
+                                    key: Key("filtros"),
+                                    title: "filtosTitulo",
+                                    pageMap: this));
+                          },
+                          child: Icon(Icons.filter_list),
+                        ))),
                     SizedBox(height: size.height * 0.01),
-                    FloatingActionButton(
-                      heroTag: "buttonAddLocation",
-                      onPressed: () {
-                        HomeTab.disabled
-                            ? SweetAlert.dialog(
-                                type: AlertType.ERROR,
-                                cancelable: true,
-                                title:
-                                    "Inicia sesión para añadir un nuevo lugar",
-                                showCancel: false,
-                                closeOnConfirm: true,
-                                confirmButtonText: "Aceptar",
-                              )
-                            : _setBotonesAbajo();
-                      },
-                      child: Icon(Icons.location_on),
-                    ),
-                    SizedBox(height: size.height * 0.35),
-                    FloatingActionButton(
-                      heroTag: "buttonFormatMap",
-                      onPressed: () {
-                        _formatMap();
-                      },
-                      child: Icon(Icons.layers),
-                    ),
+                    Container(
+                        height: size.height * 0.1,
+                        child: FittedBox(
+                            child: FloatingActionButton(
+                          heroTag: "buttonAddLocation",
+                          onPressed: () {
+                            HomeTab.disabled
+                                ? SweetAlert.dialog(
+                                    type: AlertType.ERROR,
+                                    cancelable: true,
+                                    title:
+                                        "Inicia sesión para añadir un nuevo lugar",
+                                    showCancel: false,
+                                    closeOnConfirm: true,
+                                    confirmButtonText: "Aceptar",
+                                  )
+                                : _setBotonesAbajo();
+                          },
+                          child: Icon(Icons.location_on),
+                        ))),
+                    SizedBox(height: size.height * 0.38),
+                    Container(
+                        height: size.height * 0.08,
+                        child: FittedBox(
+                            child: FloatingActionButton(
+                          heroTag: "buttonFormatMap",
+                          onPressed: () {
+                            _formatMap();
+                          },
+                          child: Icon(Icons.layers),
+                        ))),
                     SizedBox(height: size.height * 0.01),
-                    FloatingActionButton(
-                      heroTag: "buttonAdd",
-                      onPressed: () {
-                        _zoomIn();
-                      },
-                      child: Icon(Icons.add),
-                    ),
+                    Container(
+                        height: size.height * 0.08,
+                        child: FittedBox(
+                            child: FloatingActionButton(
+                          heroTag: "buttonAdd",
+                          onPressed: () {
+                            _zoomIn();
+                          },
+                          child: Icon(Icons.add),
+                        ))),
                     SizedBox(height: size.height * 0.01),
-                    FloatingActionButton(
-                      heroTag: "buttonRemove",
-                      onPressed: () {
-                        _zoomOut();
-                      },
-                      child: Icon(Icons.remove),
-                    ),
+                    Container(
+                        height: size.height * 0.08,
+                        child: FittedBox(
+                            child: FloatingActionButton(
+                          heroTag: "buttonRemove",
+                          onPressed: () {
+                            _zoomOut();
+                          },
+                          child: Icon(Icons.remove),
+                        ))),
                     SizedBox(height: size.height * 0.08),
                   ],
                 ),
