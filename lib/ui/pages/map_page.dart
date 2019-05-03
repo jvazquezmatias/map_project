@@ -80,8 +80,9 @@ class MapUiPage extends State<MapPage> {
                     padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 14.0),
                     alignment: Alignment.bottomCenter,
                     child: ButtonBar(
-                      alignment: MainAxisAlignment.center,
+                      alignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        SizedBox(width: size.width * 0.20),
                         RaisedButton(
                           color: Colors.blue,
                           child: const Text(
