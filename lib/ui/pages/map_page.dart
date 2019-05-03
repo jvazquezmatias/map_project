@@ -23,6 +23,8 @@ class MapPage extends StatefulWidget {
   static List<String> filtrosActivos;
   static String tag = 'map-page';
   static MapType tipusMapa = MapType.normal;
+  static Marker newMarker;
+  static MarkerId newMarkerId;
   @override
   MapUiPage createState() => new MapUiPage();
 }
@@ -35,129 +37,168 @@ class MapUiPage extends State<MapPage> {
     target: LatLng(41.38616, 2.1037613),
     zoom: numZoom,
   );
+  static CameraPosition _position2 = CameraPosition(
+    target: MapPage.newMarker.position,
+    zoom: numZoom,
+  );
   Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  Future<bool> _onBackPressed() {
+    MapPage.mostrarBotonesAbajo = false;
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     MapPage.context = context;
     Size size = MediaQuery.of(context).size;
     actualPosition = _position.target;
-    return new Scaffold(
-      body: GoogleMap(
-        mapType: MapPage.tipusMapa,
-        initialCameraPosition: _position,
-        onCameraMove: (position) {
-          _updateCameraPosition;
-          actualPosition = position.target;
-        },
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-          mysql.queryDownloadMarkers().whenComplete(() {
-            _addMarkers();
-          });
-        },
-        markers: Set<Marker>.of(markers.values),
-      ),
-      floatingActionButton: MapPage.mostrarBotonesAbajo
-          ? botonesAbajo
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                FloatingActionButton(
-                  heroTag: "buttonFilter",
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) => DialogFilter(
-                            key: Key("filtros"),
-                            title: "filtosTitulo",
-                            pageMap: this));
-                  },
-                  child: Icon(Icons.filter_list),
+    return WillPopScope(
+        onWillPop: _onBackPressed,
+        child: new Scaffold(
+          body: GoogleMap(
+            mapType: MapPage.tipusMapa,
+            initialCameraPosition: _position,
+            onCameraMove: (position) {
+              _updateCameraPosition;
+              actualPosition = position.target;
+            },
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              mysql.queryDownloadMarkers().whenComplete(() {
+                _addMarkers();
+              });
+            },
+            markers: Set<Marker>.of(markers.values),
+          ),
+          floatingActionButton: MapPage.mostrarBotonesAbajo
+              ? Visibility(
+                  visible: true,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 14.0),
+                    alignment: Alignment.bottomCenter,
+                    child: ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RaisedButton(
+                          color: Colors.blue,
+                          child: const Text(
+                            'Save',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              MarkerId myNewMarkerID = MarkerId("newMarker");
+                              Marker myNewMarker = Marker(
+                                markerId: myNewMarkerID,
+                                position: _position2.target,
+                                infoWindow: InfoWindow(title: 'New Place'),
+                                draggable: false,
+                                icon: BitmapDescriptor.defaultMarkerWithHue(
+                                    BitmapDescriptor.hueBlue),
+                              );
+                              markers.remove(MapPage.newMarkerId);
+                              MapPage.mostrarBotonesAbajo = false;
+                              MapPage.verBotonesAbajo = false;
+                              MapPage.newMarker = null;
+                              MapPage.newMarkerId = null;
+                              markers[myNewMarkerID] = (myNewMarker);
+                            });
+                          },
+                        ),
+                        RaisedButton(
+                          color: Colors.red,
+                          child: const Text(
+                            'Cancel',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              MapPage.mostrarBotonesAbajo = false;
+                              MapPage.verBotonesAbajo = false;
+                              if (MapPage.newMarker != null) {
+                                markers.remove(MapPage.newMarkerId);
+                                MapPage.newMarker = null;
+                                MapPage.newMarkerId = null;
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FloatingActionButton(
+                      heroTag: "buttonFilter",
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) => DialogFilter(
+                                key: Key("filtros"),
+                                title: "filtosTitulo",
+                                pageMap: this));
+                      },
+                      child: Icon(Icons.filter_list),
+                    ),
+                    SizedBox(height: size.height / 50),
+                    FloatingActionButton(
+                      heroTag: "buttonAddLocation",
+                      onPressed: () {
+                        HomeTab.disabled
+                            ? SweetAlert.dialog(
+                                type: AlertType.ERROR,
+                                cancelable: true,
+                                title:
+                                    "Inicia sesión para añadir un nuevo lugar",
+                                showCancel: false,
+                                closeOnConfirm: true,
+                                confirmButtonText: "Aceptar",
+                              )
+                            : _setBotonesAbajo();
+                      },
+                      child: Icon(Icons.location_on),
+                    ),
+                    SizedBox(height: size.height / 2.6),
+                    FloatingActionButton(
+                      heroTag: "buttonFormatMap",
+                      onPressed: () {
+                        _formatMap();
+                      },
+                      child: Icon(Icons.layers),
+                    ),
+                    SizedBox(height: size.height / 50),
+                    FloatingActionButton(
+                      heroTag: "buttonAdd",
+                      onPressed: () {
+                        _zoomIn();
+                      },
+                      child: Icon(Icons.add),
+                    ),
+                    SizedBox(height: size.height / 50),
+                    FloatingActionButton(
+                      heroTag: "buttonRemove",
+                      onPressed: () {
+                        _zoomOut();
+                      },
+                      child: Icon(Icons.remove),
+                    ),
+                    SizedBox(height: size.height / 15),
+                  ],
                 ),
-                SizedBox(height: size.height / 50),
-                FloatingActionButton(
-                  heroTag: "buttonAddLocation",
-                  onPressed: () {
-                    HomeTab.disabled
-                        ? SweetAlert.dialog(
-                            type: AlertType.ERROR,
-                            cancelable: true,
-                            title: "Inicia sesión para añadir un nuevo lugar",
-                            showCancel: false,
-                            closeOnConfirm: true,
-                            confirmButtonText: "Aceptar",
-                          )
-                        : {
-                            MapPage.verBotonesAbajo = true,
-                            MapPage.mostrarBotonesAbajo = true,
-                            _onAddPlacePressed(),
-                          };
-                  },
-                  child: Icon(Icons.location_on),
-                ),
-                SizedBox(height: size.height / 2.6),
-                FloatingActionButton(
-                  heroTag: "buttonFormatMap",
-                  onPressed: () {
-                    _formatMap();
-                  },
-                  child: Icon(Icons.layers),
-                ),
-                SizedBox(height: size.height / 50),
-                FloatingActionButton(
-                  heroTag: "buttonAdd",
-                  onPressed: () {
-                    _zoomIn();
-                  },
-                  child: Icon(Icons.add),
-                ),
-                SizedBox(height: size.height / 50),
-                FloatingActionButton(
-                  heroTag: "buttonRemove",
-                  onPressed: () {
-                    _zoomOut();
-                  },
-                  child: Icon(Icons.remove),
-                ),
-                SizedBox(height: size.height / 15),
-              ],
-            ),
-    );
+        ));
   }
 
-  var botonesAbajo = Visibility(
-    visible: MapPage.verBotonesAbajo,
-    child: Container(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 14.0),
-      alignment: Alignment.bottomCenter,
-      child: ButtonBar(
-        alignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RaisedButton(
-            color: Colors.blue,
-            child: const Text(
-              'Save',
-              style: TextStyle(color: Colors.white, fontSize: 16.0),
-            ),
-            onPressed: () {},
-          ),
-          RaisedButton(
-            color: Colors.red,
-            child: const Text(
-              'Cancel',
-              style: TextStyle(color: Colors.white, fontSize: 16.0),
-            ),
-            onPressed: () {
-              MapPage.mostrarBotonesAbajo = false;
-              MapPage.verBotonesAbajo = false;
-            },
-          ),
-        ],
-      ),
-    ),
-  );
+  void _setBotonesAbajo() {
+    setState(() {
+      MapPage.mostrarBotonesAbajo = true;
+      _onAddPlacePressed();
+    });
+  }
 
   Future<void> _zoomIn() async {
     final GoogleMapController controller = await _controller.future;
@@ -202,15 +243,17 @@ class MapUiPage extends State<MapPage> {
 
   void _onAddPlacePressed() async {
     setState(() {
-      final MarkerId markerId = MarkerId("ddd");
-      final newMarker = Marker(
-        markerId: markerId,
+      MapPage.newMarkerId = MarkerId("_pendingMark");
+      MapPage.newMarker = Marker(
+        markerId: MapPage.newMarkerId,
         position: actualPosition,
         infoWindow: InfoWindow(title: 'New Place'),
         draggable: true,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
       );
-      markers[markerId] = (newMarker);
+      markers[MapPage.newMarkerId] = (MapPage.newMarker);
+
+      print(actualPosition);
     });
   }
 

@@ -120,7 +120,8 @@ class MarkerDetails extends State<PageMarkerDetails> {
                 color: Colors.yellow,
                 borderColor: Colors.yellow,
               ),
-            )
+            ),
+            
           ],
         ));
   }
