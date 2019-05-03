@@ -92,7 +92,7 @@ class MapUiPage extends State<MapPage> {
                               MarkerId myNewMarkerID = MarkerId("newMarker");
                               Marker myNewMarker = Marker(
                                 markerId: myNewMarkerID,
-                                position: _position2.target,
+                                position: markers[MapPage.newMarkerId].position,
                                 infoWindow: InfoWindow(title: 'New Place'),
                                 draggable: false,
                                 icon: BitmapDescriptor.defaultMarkerWithHue(
