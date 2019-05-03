@@ -166,7 +166,7 @@ class MapUiPage extends State<MapPage> {
                       },
                       child: Icon(Icons.location_on),
                     ),
-                    SizedBox(height: size.height * 0.4),
+                    SizedBox(height: size.height * 0.35),
                     FloatingActionButton(
                       heroTag: "buttonFormatMap",
                       onPressed: () {
@@ -190,7 +190,7 @@ class MapUiPage extends State<MapPage> {
                       },
                       child: Icon(Icons.remove),
                     ),
-                    SizedBox(height: size.height * 0.01),
+                    SizedBox(height: size.height * 0.08),
                   ],
                 ),
         ));
