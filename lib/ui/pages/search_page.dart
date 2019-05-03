@@ -77,6 +77,7 @@ class SearchPageState extends State<SearchPage> {
       itemCount: names == null ? 0 : filteredNames.length,
       itemBuilder: (BuildContext context, int index) {
         return new ListTile(
+          contentPadding: EdgeInsets.symmetric(vertical: 30.0),
           title: Text(filteredNames[index].getTitulo()),
           onTap: () => Navigator.push(
                   context,

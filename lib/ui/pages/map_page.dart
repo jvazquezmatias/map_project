@@ -145,7 +145,7 @@ class MapUiPage extends State<MapPage> {
                       },
                       child: Icon(Icons.filter_list),
                     ),
-                    SizedBox(height: size.height / 50),
+                    SizedBox(height: size.height * 0.01),
                     FloatingActionButton(
                       heroTag: "buttonAddLocation",
                       onPressed: () {
@@ -163,7 +163,7 @@ class MapUiPage extends State<MapPage> {
                       },
                       child: Icon(Icons.location_on),
                     ),
-                    SizedBox(height: size.height / 2.6),
+                    SizedBox(height: size.height * 0.4),
                     FloatingActionButton(
                       heroTag: "buttonFormatMap",
                       onPressed: () {
@@ -171,7 +171,7 @@ class MapUiPage extends State<MapPage> {
                       },
                       child: Icon(Icons.layers),
                     ),
-                    SizedBox(height: size.height / 50),
+                    SizedBox(height: size.height * 0.01),
                     FloatingActionButton(
                       heroTag: "buttonAdd",
                       onPressed: () {
@@ -179,7 +179,7 @@ class MapUiPage extends State<MapPage> {
                       },
                       child: Icon(Icons.add),
                     ),
-                    SizedBox(height: size.height / 50),
+                    SizedBox(height: size.height * 0.01),
                     FloatingActionButton(
                       heroTag: "buttonRemove",
                       onPressed: () {
@@ -187,7 +187,7 @@ class MapUiPage extends State<MapPage> {
                       },
                       child: Icon(Icons.remove),
                     ),
-                    SizedBox(height: size.height / 15),
+                    SizedBox(height: size.height * 0.01),
                   ],
                 ),
         ));
