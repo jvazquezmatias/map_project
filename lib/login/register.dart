@@ -47,7 +47,6 @@ class Register extends State<RegisterPage> {
           TextFormField(
             keyboardType: TextInputType.text,
             autofocus: false,
-            // initialValue: 'pablo@gmail.com',
             controller: nameValue,
 
             decoration: InputDecoration(

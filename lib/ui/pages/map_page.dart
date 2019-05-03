@@ -114,12 +114,22 @@ class MapUiPage extends State<MapPage> {
                                       BitmapDescriptor.hueBlue),
                                 );
                               }
+                              if (oldPositionMarker != null) {
+                                markers.remove(oldPositionMarker);
+                                oldPositionMarker = null;
+                              }
                               markers.remove(MapPage.newMarkerId);
                               MapPage.mostrarBotonesAbajo = false;
                               MapPage.verBotonesAbajo = false;
-                              MapPage.newMarker = null;
                               MapPage.newMarkerId = null;
-                              markers[myNewMarkerID] = (myNewMarker);
+                              MapPage.newMarker = null;
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => DialogNewMarker(
+                                      key: Key("nuevoLugar"),
+                                      marker: myNewMarker,
+                                      mapPage: this));
+                              //markers[myNewMarkerID] = (myNewMarker);
                             });
                           },
                         ),
@@ -485,6 +495,100 @@ class _FilterDialog extends State<DialogFilter> {
           child: Text("Aceptar"),
         ),
       ],
+    );
+  }
+}
+
+class DialogNewMarker extends StatefulWidget {
+  MapUiPage mapPage;
+  Marker marker;
+  DialogNewMarker({Key key, this.marker, this.mapPage}) : super(key: key);
+  @override
+  DialogNewMarkerPage createState() =>
+      new DialogNewMarkerPage(marker: marker, mapPage: mapPage);
+}
+
+class DialogNewMarkerPage extends State<DialogNewMarker> {
+  final _formKey = GlobalKey<FormState>();
+  final nombreLugar = TextEditingController();
+  final descripcionLugar = TextEditingController();
+  Marker marker;
+  MapUiPage mapPage;
+  DialogNewMarkerPage({this.marker, this.mapPage});
+
+  @override
+  Widget build(BuildContext context) {
+    Color myColor = Colors.green;
+    return new AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.only(top: 10.0),
+      content: Container(
+        width: 300.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            TextFormField(
+              keyboardType: TextInputType.text,
+              autofocus: false,
+              controller: nombreLugar,
+              maxLines: 1,
+              
+              decoration: InputDecoration(
+                hintText: 'Nombre del lugar',
+                hintStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'No puedes dejar el campo vacío';
+                }
+              },
+            ),
+            SizedBox(
+              height: 5.0,
+            ),
+            Divider(
+              color: Colors.grey,
+              height: 4.0,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 30.0, right: 30.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "Add Review",
+                  border: InputBorder.none,
+                ),
+                maxLines: 8,
+              ),
+            ),
+            InkWell(
+              onTap: (){
+                print("HOLA CARACOLA");
+              },
+              child: Container(
+                padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                decoration: BoxDecoration(
+                  color: myColor,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(32.0),
+                      bottomRight: Radius.circular(32.0)),
+                ),
+                child: Text(
+                  "Rate Product",
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
