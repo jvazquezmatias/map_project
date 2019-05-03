@@ -10,15 +10,18 @@ import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 
 class MapPage extends StatefulWidget {
   static int _indexFormatMap = 0;
-  static bool parkingDiaYNoche = false;
-  static bool parkingSoloDia = false;
-  static bool rodeadoDeNaturaleza = false;
-  static bool areaDeServicios = false;
-  static bool solucionDeProblemas = false;
-  static bool areaAutocaravanasPublicaGratuita = false;
-  static bool zonaDePicnic = false;
+
+  static bool parkingDiaYNoche = true;
+  static bool parkingSoloDia = true;
+  static bool rodeadoDeNaturaleza = true;
+  static bool areaDeServicios = true;
+  static bool solucionDeProblemas = true;
+  static bool areaAutocaravanasPublicaGratuita = true;
+  static bool zonaDePicnic = true;
+
   static bool mostrarBotonesAbajo = false;
   static bool verBotonesAbajo = false;
+  
   static BuildContext context;
   static List<String> filtrosActivos;
   static String tag = 'map-page';
@@ -80,8 +83,9 @@ class MapUiPage extends State<MapPage> {
                     padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 14.0),
                     alignment: Alignment.bottomCenter,
                     child: ButtonBar(
-                      alignment: MainAxisAlignment.center,
+                      alignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        SizedBox(width: size.width * 0.20),
                         RaisedButton(
                           color: Colors.blue,
                           child: const Text(
