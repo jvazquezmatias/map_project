@@ -60,7 +60,7 @@ class MapUiPage extends State<MapPage> {
             mapType: MapPage.tipusMapa,
             initialCameraPosition: _position,
             onCameraMove: (position) {
-              _updateCameraPosition;
+              _updateCameraPosition(position);
               actualPosition = position.target;
               if (MapPage.newMarker != null) {
                 _updateMarkerPosition(actualPosition);
@@ -220,12 +220,16 @@ class MapUiPage extends State<MapPage> {
 
   Future<void> _zoomIn() async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.zoomTo(_position.zoom + 1));
+    setState(() {
+      controller.animateCamera(CameraUpdate.zoomTo(_position.zoom + 1));
+    });
   }
 
   Future<void> _zoomOut() async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.zoomTo(_position.zoom - 1));
+    setState(() {
+      controller.animateCamera(CameraUpdate.zoomTo(_position.zoom - 1));
+    });
   }
 
   void _formatMap() {
@@ -277,13 +281,12 @@ class MapUiPage extends State<MapPage> {
   }
 
   void _updateMarkerPosition(LatLng _position) {
-    LatLng newMarkerPosition =
-        LatLng(_position.latitude, _position.longitude);
+    LatLng newMarkerPosition = LatLng(_position.latitude, _position.longitude);
     setState(() {
       markers[MapPage.newMarkerId].copyWith(
           positionParam:
               LatLng(newMarkerPosition.latitude, newMarkerPosition.longitude));
-              print(markers);
+      print(markers);
     });
   }
 
