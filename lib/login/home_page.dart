@@ -15,7 +15,8 @@ class HomeLoginPage extends StatelessWidget {
         child: CircleAvatar(
           radius: 72.0,
           //backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage('assets/img/logoMapBlack.png'),
+          backgroundImage: NetworkImage(
+              'https://pixel.nymag.com/imgs/daily/vulture/2017/06/14/14-tom-cruise.w700.h700.jpg'),
         ),
       ),
     );
@@ -45,7 +46,8 @@ class HomeLoginPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             backgroundImage: AssetImage('assets/img/backImg.png'),
             child: new FlatButton(onPressed: () {
-              home.HomeTab.cuentaCorrecta(); // Esto se tiene que ejecutar al pulsar login correcto
+              home.HomeTab
+                  .cuentaCorrecta(); // Esto se tiene que ejecutar al pulsar login correcto
               //Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome()));
               Navigator.of(context).pop();
             }),
