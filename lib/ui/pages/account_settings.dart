@@ -24,7 +24,7 @@ class AccountTabSettings extends State<AccountSettings> {
             clipper: getClipper(),
           ),
           Positioned(
-            width: 390,
+            width: sizeMedia.width*1,
             top: sizeMedia.height * 0.04,
             child: Column(
               children: <Widget>[
