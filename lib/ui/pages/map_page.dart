@@ -33,14 +33,13 @@ class MapUiPage extends State<MapPage> {
   static double numZoom = 14.4746;
   static List<MyMarker> listMarkers = new List();
   LatLng actualPosition;
+  MarkerId oldPositionMarker;
+  MarkerId idMarkerUpdateMarker;
   static CameraPosition _position = CameraPosition(
     target: LatLng(41.38616, 2.1037613),
     zoom: numZoom,
   );
-  static CameraPosition _position2 = CameraPosition(
-    target: MapPage.newMarker.position,
-    zoom: numZoom,
-  );
+
   Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   Future<bool> _onBackPressed() {
@@ -93,14 +92,28 @@ class MapUiPage extends State<MapPage> {
                           onPressed: () {
                             setState(() {
                               MarkerId myNewMarkerID = MarkerId("newMarker");
-                              Marker myNewMarker = Marker(
-                                markerId: myNewMarkerID,
-                                position: markers[MapPage.newMarkerId].position,
-                                infoWindow: InfoWindow(title: 'New Place'),
-                                draggable: false,
-                                icon: BitmapDescriptor.defaultMarkerWithHue(
-                                    BitmapDescriptor.hueBlue),
-                              );
+                              Marker myNewMarker;
+                              if (MapPage.newMarkerId == null) {
+                                myNewMarker = Marker(
+                                  markerId: myNewMarkerID,
+                                  position:
+                                      markers[idMarkerUpdateMarker].position,
+                                  infoWindow: InfoWindow(title: 'New Place'),
+                                  draggable: false,
+                                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                                      BitmapDescriptor.hueBlue),
+                                );
+                              } else {
+                                myNewMarker = Marker(
+                                  markerId: myNewMarkerID,
+                                  position:
+                                      markers[MapPage.newMarkerId].position,
+                                  infoWindow: InfoWindow(title: 'New Place'),
+                                  draggable: false,
+                                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                                      BitmapDescriptor.hueBlue),
+                                );
+                              }
                               markers.remove(MapPage.newMarkerId);
                               MapPage.mostrarBotonesAbajo = false;
                               MapPage.verBotonesAbajo = false;
@@ -123,6 +136,7 @@ class MapUiPage extends State<MapPage> {
                               MapPage.verBotonesAbajo = false;
                               if (MapPage.newMarker != null) {
                                 markers.remove(MapPage.newMarkerId);
+                                markers.remove(oldPositionMarker);
                                 MapPage.newMarker = null;
                                 MapPage.newMarkerId = null;
                               }
@@ -281,12 +295,25 @@ class MapUiPage extends State<MapPage> {
   }
 
   void _updateMarkerPosition(LatLng _position) {
-    LatLng newMarkerPosition = LatLng(_position.latitude, _position.longitude);
     setState(() {
-      markers[MapPage.newMarkerId].copyWith(
-          positionParam:
-              LatLng(newMarkerPosition.latitude, newMarkerPosition.longitude));
-      print(markers);
+      if (oldPositionMarker != null) {
+        markers.remove(oldPositionMarker);
+        oldPositionMarker = null;
+      }
+      if (MapPage.newMarkerId != null) {
+        markers.remove(MapPage.newMarkerId);
+        MapPage.newMarkerId = null;
+      }
+      idMarkerUpdateMarker = MarkerId(_position.toString());
+      oldPositionMarker = idMarkerUpdateMarker;
+      Marker marker = Marker(
+        markerId: idMarkerUpdateMarker,
+        position: _position,
+        infoWindow: InfoWindow(title: 'New Place'),
+        draggable: false,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      );
+      markers[idMarkerUpdateMarker] = marker;
     });
   }
 
