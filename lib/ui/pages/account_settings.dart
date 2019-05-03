@@ -29,8 +29,8 @@ class AccountTabSettings extends State<AccountSettings> {
             child: Column(
               children: <Widget>[
                 Container(
-                  width: sizeMedia.width * 0.40,
-                  height: sizeMedia.height * 0.25,
+                  width: 150.0,
+                  height: 150.0,
                   decoration: BoxDecoration(
                       color: Colors.red,
                       image: DecorationImage(
@@ -184,7 +184,7 @@ class AccountTabSettings extends State<AccountSettings> {
                 SizedBox(height: sizeMedia.height * 0.03),
                 Container(
                   height: sizeMedia.height * 0.06,
-                  width: sizeMedia.width * 0.35,
+                  width: sizeMedia.width * 0.3,
                   child: Material(
                     borderRadius: BorderRadius.circular(20.0),
                     shadowColor: Colors.redAccent,
