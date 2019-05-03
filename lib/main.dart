@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Project: Map',
+      title: 'SWYP',
       routes: routes,
       theme: new ThemeData(
           primaryColor: Colors.white, accentColor: Colors.greenAccent),
