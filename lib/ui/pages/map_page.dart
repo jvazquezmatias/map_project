@@ -341,7 +341,9 @@ class MapUiPage extends State<MapPage> {
           position: LatLng(element.getLatitud(), element.getLongitud()),
           infoWindow: InfoWindow(
             title: element.getTitulo(),
-            snippet: element.getEstrellas().toString() + " estrellas",
+            snippet: element.getDescripcion().length > 30
+                ? element.getDescripcion().substring(0, 30) + ".."
+                : element.getDescripcion(),
             onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(

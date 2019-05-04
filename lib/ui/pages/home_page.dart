@@ -69,8 +69,29 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text('Share Where You Park'),
-                  content: const Text(
-                      'Version: 1.0 \n\nAutores:\n  Javier Vázquez\n  Pablo Sánchez'),
+                  content: Row(
+                    children: <Widget>[
+                      const Text(
+                          'Version: 1.0 \n\nAutores:\n  Javier Vázquez\n  Pablo Sánchez'),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        height: 100,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          image: new DecorationImage(
+                            fit: BoxFit.cover,
+                            colorFilter: new ColorFilter.mode(
+                                Colors.white.withOpacity(0.8),
+                                BlendMode.dstATop),
+                            image:
+                                new AssetImage('assets/img/logoMapBlack.png'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   actions: <Widget>[
                     FlatButton(
                       child: Text('Ok'),
