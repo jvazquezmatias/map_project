@@ -340,8 +340,8 @@ class MapUiPage extends State<MapPage> {
               "assets/img/icons/" + element.getIcono() + ".png"),
           position: LatLng(element.getLatitud(), element.getLongitud()),
           infoWindow: InfoWindow(
-            title: "Ausias March",
-            snippet: "pruebaa",
+            title: element.getTitulo(),
+            snippet: element.getEstrellas().toString() + " estrellas",
             onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -514,15 +514,20 @@ class DialogNewMarker extends StatefulWidget {
 }
 
 class DialogNewMarkerPage extends State<DialogNewMarker> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKeyIconoLugar = GlobalKey<FormState>();
+  final _formKeyNombreLugar = GlobalKey<FormState>();
+  final _formKeyDescripcionLugar = GlobalKey<FormState>();
   final nombreLugar = TextEditingController();
   final descripcionLugar = TextEditingController();
+  String valorIcono;
+  String nombreIcono;
   Marker marker;
   MapUiPage mapPage;
   DialogNewMarkerPage({this.marker, this.mapPage});
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     Color myColor = Colors.green;
     return new AlertDialog(
       shape: RoundedRectangleBorder(
@@ -535,24 +540,112 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            TextFormField(
-              keyboardType: TextInputType.text,
-              autofocus: false,
-              controller: nombreLugar,
-              maxLines: 1,
-              decoration: InputDecoration(
-                hintText: 'Nombre del lugar',
-                hintStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
+            Form(
+              key: _formKeyIconoLugar,
+              child: DropdownButtonFormField(
+                decoration: InputDecoration(
+                  hintText: 'Icono',
+                  hintStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  border: InputBorder.none,
                 ),
-                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: InputBorder.none,
+                items: [
+                  DropdownMenuItem(
+                    value: "1",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Image(
+                            image: AssetImage("assets/img/icons/bandera.png"),
+                            width: size.width * 0.05,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: Text(
+                            "Bandera",
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "2",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Image(
+                            image: AssetImage("assets/img/icons/location.png"),
+                            width: size.width * 0.05,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: Text(
+                            "Corazon",
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    valorIcono = value;
+                    if (valorIcono == "1") {
+                      nombreIcono = "bandera";
+                    } else if (valorIcono == "2") {
+                      nombreIcono = "location";
+                    }
+                  });
+                },
+                value: valorIcono,
+                validator: (value) {
+                  if (value == null) {
+                    return 'Selecciona un icono';
+                  }
+                },
               ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'No puedes dejar el campo vacío';
-                }
+              autovalidate: false,
+              onChanged: () {
+                FormState();
               },
+            ),
+            SizedBox(
+              height: 5.0,
+            ),
+            Divider(
+              color: Colors.grey,
+              height: 4.0,
+            ),
+            Form(
+              key: _formKeyNombreLugar,
+              child: TextFormField(
+                keyboardType: TextInputType.text,
+                autofocus: false,
+                controller: nombreLugar,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: 'Nombre del lugar',
+                  hintStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  border: InputBorder.none,
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'No puedes dejar el campo vacío';
+                  }
+                },
+              ),
             ),
             SizedBox(
               height: 5.0,
@@ -563,16 +656,24 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
             ),
             Padding(
               padding: EdgeInsets.only(left: 30.0, right: 30.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Descripcion del sitio",
-                  border: InputBorder.none,
+              child: (Form(
+                key: _formKeyDescripcionLugar,
+                child: TextFormField(
+                  controller: descripcionLugar,
+                  decoration: InputDecoration(
+                    hintText: "Descripcion del sitio",
+                    border: InputBorder.none,
+                  ),
+                  maxLines: 8,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'No puedes dejar el campo vacío';
+                    }
+                  },
                 ),
-                maxLines: 8,
-              ),
+              )),
             ),
             InkWell(
-              onTap: () {},
               child: Container(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 decoration: BoxDecoration(
@@ -587,6 +688,21 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
                   textAlign: TextAlign.center,
                 ),
               ),
+              onTap: () {
+                if ((_formKeyIconoLugar.currentState.validate()) &&
+                    (_formKeyNombreLugar.currentState.validate()) &&
+                    (_formKeyDescripcionLugar.currentState.validate())) {
+                  mysql
+                      .insertNewMarker(nombreLugar.text, nombreIcono,
+                          descripcionLugar.text, marker)
+                      .whenComplete(() {
+                    mapPage.setState(() {
+                      mapPage.cargarMarkersConFilros();
+                      Navigator.pop(context);
+                    });
+                  });
+                }
+              },
             ),
           ],
         ),

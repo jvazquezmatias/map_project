@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:mysql1/mysql1.dart';
 import 'package:project/model/my_marker.dart';
 import 'package:project/ui/pages/map_page.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const parkingDiaNoche = "location";
 const parkingSoloDia = "bandera";
@@ -172,6 +173,39 @@ Future<String> queryDownloadMarkersAndFilter() async {
         estrellas: estrellas);
     MapUiPage.listMarkers.add(marker);
   }
+  // Finally, close the connection
+  await conn.close();
+}
+
+Future insertNewMarker(var nombreLugar, var iconoLugar, var descripcionLugar,
+    Marker marker) async {
+  // Open a connection (testdb should already exist) javi123456_
+  final conn = await MySqlConnection.connect(new ConnectionSettings(
+      host: 'labs.iam.cat',
+      port: 3306,
+      user: 'a17pabsanrod_adm',
+      password: 'pablo1234',
+      db: 'a17pabsanrod_projectefinal'));
+
+  conn.query("INSERT INTO MARKERS(ID, LATITUD, LONGITUD, ICONO) VALUES ('" +
+      nombreLugar +
+      "'," +
+      marker.position.latitude.toString() +
+      "," +
+      marker.position.longitude.toString() +
+      ",'" +
+      iconoLugar +
+      "')");
+
+  conn.query(
+      "INSERT INTO MARKERS_INFO(ID, TITULO, DESCRIPCION, ESTRELLAS) VALUES ('" +
+          nombreLugar +
+          "','" +
+          nombreLugar +
+          "','" +
+          descripcionLugar +
+          "', 0)");
+
   // Finally, close the connection
   await conn.close();
 }
