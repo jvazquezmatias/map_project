@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 const parkingDiaNoche = "location";
 const parkingSoloDia = "bandera";
 List<String> filtrosActivos;
+List<String> favoritesUser = new List<String>();
 User user;
 String name = "";
 String surname = "";
@@ -210,12 +211,86 @@ Future insertNewMarker(var nombreLugar, var iconoLugar, var descripcionLugar,
   await conn.close();
 }
 
+Future insertMarkerToFavorites(var idLugar, var username) async {
+  // Open a connection (testdb should already exist) javi123456_
+  final conn = await MySqlConnection.connect(new ConnectionSettings(
+      host: 'labs.iam.cat',
+      port: 3306,
+      user: 'a17pabsanrod_adm',
+      password: 'pablo1234',
+      db: 'a17pabsanrod_projectefinal'));
+
+  conn.query(
+      "INSERT INTO USERS_FAVORITES_MARKERS(USERNAME,IDMARKER) VALUES ('" +
+          username +
+          "','" +
+          idLugar +
+          "')");
+
+  // Finally, close the connection
+  await conn.close();
+}
+
+Future removeMarkerToFavorites(var idLugar, var username) async {
+  // Open a connection (testdb should already exist) javi123456_
+  final conn = await MySqlConnection.connect(new ConnectionSettings(
+      host: 'labs.iam.cat',
+      port: 3306,
+      user: 'a17pabsanrod_adm',
+      password: 'pablo1234',
+      db: 'a17pabsanrod_projectefinal'));
+
+  conn.query("DELETE FROM USERS_FAVORITES_MARKERS WHERE USERNAME = '" +
+      username +
+      "' AND IDMARKER = '" +
+      idLugar +
+      "'");
+
+  // Finally, close the connection
+  await conn.close();
+}
+
+Future<String> obtenerMarkerToFavorites(var username) async {
+  String nombreMarker;
+  if (favoritesUser != null) {
+    favoritesUser.clear();
+  }
+  // Open a connection (testdb should already exist) javi123456_
+  final conn = await MySqlConnection.connect(new ConnectionSettings(
+      host: 'labs.iam.cat',
+      port: 3306,
+      user: 'a17pabsanrod_adm',
+      password: 'pablo1234',
+      db: 'a17pabsanrod_projectefinal'));
+
+  var results = await conn.query(
+      "SELECT IDMARKER FROM USERS_FAVORITES_MARKERS WHERE USERNAME = '" +
+          username +
+          "'");
+
+  if ((results.length == 0) || (results == null)) {
+    favoritesUser.add("NADA");
+  } else {
+    for (var row in results) {
+      nombreMarker = row[0];
+      favoritesUser.add(nombreMarker);
+    }
+  }
+
+  // Finally, close the connection
+  await conn.close();
+}
+
 User getUser() {
   return user;
 }
 
 bool getConnection() {
   return connection;
+}
+
+List<String> getFavorites() {
+  return favoritesUser;
 }
 
 //SELECT * FROM USERS_FAVORITES_MARKERS f JOIN MARKERS m ON f.IDMARKER = m.ID JOIN USERS u ON f.USERNAME = u.USERNAME WHERE u.USERNAME = 'javi'

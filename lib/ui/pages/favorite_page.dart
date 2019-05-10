@@ -4,6 +4,7 @@ import 'package:mysql1/mysql1.dart';
 import 'package:project/ui/pages/marker_details.dart';
 import 'package:project/widgets/mysql.dart' as mysql;
 import 'package:flutter/src/widgets/basic.dart' as basic;
+import 'package:project/ui/pages/home_page.dart';
 
 class FavoritePage extends StatefulWidget {
   static String tag = 'favorite-page';
@@ -15,7 +16,7 @@ class FavoritePageState extends State<FavoritePage> {
   final TextEditingController _filter = new TextEditingController();
   final marker = new MyMarker();
   String _searchText = "";
-  List<dynamic> names = new List();
+  static List<dynamic> names = new List();
   List<dynamic> filteredNames = new List();
   Icon _searchIcon = new Icon(Icons.search);
   Widget _appBarTitle = new Text('Favoritos');
@@ -42,13 +43,15 @@ class FavoritePageState extends State<FavoritePage> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildBar(context),
-      body: Container(
-        child: _buildList(),
-      ),
-      resizeToAvoidBottomPadding: false,
-    );
+    return new WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          appBar: _buildBar(context),
+          body: Container(
+            child: _buildList(),
+          ),
+          resizeToAvoidBottomPadding: false,
+        ));
   }
 
   Widget _buildBar(BuildContext context) {
@@ -81,10 +84,59 @@ class FavoritePageState extends State<FavoritePage> {
       itemBuilder: (BuildContext context, int index) {
         Size size = MediaQuery.of(context).size;
         return new GestureDetector(
-            onTap: () => Navigator.push(
+            onTap: () {
+              IconData myIcon;
+              List<String> favorites = new List<String>();
+
+              if (mysql.getConnection()) {
+                print(mysql.getFavorites());
+                mysql
+                    .obtenerMarkerToFavorites(mysql.getUser().getUsername())
+                    .whenComplete(() {
+                  favorites = mysql.getFavorites();
+                  print("2 " + favorites.toString());
+
+                  MarkerDetails.iconoEstrellaVacio = true;
+
+                  favorites.forEach((elemento) {
+                    if (elemento == filteredNames[index].getId()) {
+                      print("ELEMENTO 1: " + elemento);
+                      print("ELEMENTO 2: " + filteredNames[index].getId());
+                      MarkerDetails.iconoEstrellaVacio = false;
+                    }
+                  });
+
+                  if (MarkerDetails.iconoEstrellaVacio) {
+                    myIcon = Icons.star_border;
+                  } else {
+                    myIcon = Icons.star;
+                  }
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => new PageMarkerDetails(
+                            id: filteredNames[index].getId(),
+                            latitud: filteredNames[index].getLatitud(),
+                            longitud: filteredNames[index].getLongitud(),
+                            icono: filteredNames[index].getIcono(),
+                            titulo: filteredNames[index].getTitulo(),
+                            descripcion: filteredNames[index].getDescripcion(),
+                            estrellas: filteredNames[index].getEstrellas(),
+                            imagen: filteredNames[index].getImagen(),
+                            myIcon: myIcon,
+                            fav: true,
+                            favorites: favorites,
+                          ),
+                    ),
+                  );
+                });
+              } else {
+                myIcon = Icons.star_border;
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PageMarkerDetails(
+                    builder: (context) => new PageMarkerDetails(
                           id: filteredNames[index].getId(),
                           latitud: filteredNames[index].getLatitud(),
                           longitud: filteredNames[index].getLongitud(),
@@ -93,9 +145,14 @@ class FavoritePageState extends State<FavoritePage> {
                           descripcion: filteredNames[index].getDescripcion(),
                           estrellas: filteredNames[index].getEstrellas(),
                           imagen: filteredNames[index].getImagen(),
+                          fav: true,
+                          myIcon: myIcon,
+                          favorites: favorites,
                         ),
                   ),
-                ),
+                );
+              }
+            },
             child: Card(
               shape: RoundedRectangleBorder(
                 side: BorderSide(width: 1.0),
@@ -144,6 +201,7 @@ class FavoritePageState extends State<FavoritePage> {
   }
 
   void _getNames() async {
+    names.clear();
     String id = "";
     double latitud = 0;
     double longitud = 0;
@@ -187,5 +245,9 @@ class FavoritePageState extends State<FavoritePage> {
       });
     }
     await conn.close();
+  }
+
+  Future<bool> _onWillPop() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyHome()));
   }
 }

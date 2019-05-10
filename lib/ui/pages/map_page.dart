@@ -340,26 +340,79 @@ class MapUiPage extends State<MapPage> {
               "assets/img/icons/" + element.getIcono() + ".png"),
           position: LatLng(element.getLatitud(), element.getLongitud()),
           infoWindow: InfoWindow(
-            title: element.getTitulo(),
-            snippet: element.getDescripcion().length > 30
-                ? element.getDescripcion().substring(0, 30) + ".."
-                : element.getDescripcion(),
-            onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PageMarkerDetails(
-                          id: element.getId(),
-                          latitud: element.getLatitud(),
-                          longitud: element.getLongitud(),
-                          icono: element.getIcono(),
-                          titulo: element.getTitulo(),
-                          descripcion: element.getDescripcion(),
-                          estrellas: element.getEstrellas(),
-                          imagen: element.getImagen(),
-                        ),
-                  ),
-                ),
-          ),
+              title: element.getTitulo(),
+              snippet: element.getDescripcion().length > 30
+                  ? element.getDescripcion().substring(0, 30) + ".."
+                  : element.getDescripcion(),
+              onTap: () {
+                IconData myIcon;
+                List<String> favorites = new List<String>();
+
+                if (mysql.getConnection()) {
+                  print(mysql.getFavorites());
+                  mysql
+                      .obtenerMarkerToFavorites(mysql.getUser().getUsername())
+                      .whenComplete(() {
+                    favorites = mysql.getFavorites();
+                    print("2 " + favorites.toString());
+
+                    MarkerDetails.iconoEstrellaVacio = true;
+
+                    favorites.forEach((elemento) {
+                      if (elemento == element.getId()) {
+                        print("ELEMENTO 1: " + elemento);
+                        print("ELEMENTO 2: " + element.getId());
+                        MarkerDetails.iconoEstrellaVacio = false;
+                      }
+                    });
+
+                    if (MarkerDetails.iconoEstrellaVacio) {
+                      myIcon = Icons.star_border;
+                    } else {
+                      myIcon = Icons.star;
+                    }
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => new PageMarkerDetails(
+                              id: element.getId(),
+                              latitud: element.getLatitud(),
+                              longitud: element.getLongitud(),
+                              icono: element.getIcono(),
+                              titulo: element.getTitulo(),
+                              descripcion: element.getDescripcion(),
+                              estrellas: element.getEstrellas(),
+                              imagen: element.getImagen(),
+                              myIcon: myIcon,
+                              fav: false,
+                              favorites: favorites,
+                            ),
+                      ),
+                    );
+                  });
+                } else {
+                  myIcon = Icons.star_border;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => new PageMarkerDetails(
+                            id: element.getId(),
+                            latitud: element.getLatitud(),
+                            longitud: element.getLongitud(),
+                            icono: element.getIcono(),
+                            titulo: element.getTitulo(),
+                            descripcion: element.getDescripcion(),
+                            estrellas: element.getEstrellas(),
+                            imagen: element.getImagen(),
+                            fav: false,
+                            myIcon: myIcon,
+                            favorites: favorites,
+                          ),
+                    ),
+                  );
+                }
+              }),
         );
         setState(
           () {
