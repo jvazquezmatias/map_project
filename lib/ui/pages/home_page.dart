@@ -5,6 +5,7 @@ import 'package:project/ui/pages/home.dart' as home;
 import 'package:project/ui/pages/account_settings.dart';
 import 'package:flutter_sweet_alert/flutter_sweet_alert.dart';
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
 
 class MyHome extends StatefulWidget {
   static String tag = 'home-principal';
@@ -26,6 +27,9 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     controller = new TabController(length: tabs.length, vsync: this);
+    requestPermission().whenComplete(() {
+      print("false");
+    });
   }
 
   @override
@@ -123,10 +127,15 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
           ),
           bottomNavigationBar: new Material(
               child: new TabBar(
-            // labelColor: Colors.black,
             tabs: tabs,
             controller: controller,
           )),
         ));
+  }
+
+  Future requestPermission() async {
+    Map<PermissionGroup, PermissionStatus> permissions =
+        await PermissionHandler()
+            .requestPermissions([PermissionGroup.location]);
   }
 }

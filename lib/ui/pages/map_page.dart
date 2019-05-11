@@ -28,18 +28,31 @@ class MapPage extends StatefulWidget {
   static MapType tipusMapa = MapType.normal;
   static Marker newMarker;
   static MarkerId newMarkerId;
+  double latitud;
+  double longitud;
+  double zoom;
+
+  MapPage({this.latitud, this.longitud, this.zoom});
+
   @override
-  MapUiPage createState() => new MapUiPage();
+  MapUiPage createState() =>
+      new MapUiPage(latitud: latitud, longitud: longitud, zoom: zoom);
 }
 
 class MapUiPage extends State<MapPage> {
-  static double numZoom = 14.4746;
+  double latitud = 39.1814828;
+  double longitud = -3.7411756;
+  double zoom = 5;
+  static double numLatitud;
+  static double numLongitud;
+  static double numZoom;
+  //14.4746
   static List<MyMarker> listMarkers = new List();
   LatLng actualPosition;
   MarkerId oldPositionMarker;
   MarkerId idMarkerUpdateMarker;
   static CameraPosition _position = CameraPosition(
-    target: LatLng(41.38616, 2.1037613),
+    target: LatLng(numLatitud, numLongitud),
     zoom: numZoom,
   );
 
@@ -48,6 +61,16 @@ class MapUiPage extends State<MapPage> {
   Future<bool> _onBackPressed() {
     MapPage.mostrarBotonesAbajo = false;
     Navigator.pop(context);
+  }
+
+  MapUiPage({this.latitud, this.longitud, this.zoom});
+
+  @override
+  void initState() {
+    numLatitud = latitud;
+    numLongitud = longitud;
+    numZoom = zoom;
+    super.initState();
   }
 
   @override
@@ -73,6 +96,7 @@ class MapUiPage extends State<MapPage> {
               cargarMarkersConFilros();
             },
             markers: Set<Marker>.of(markers.values),
+            myLocationEnabled: true,
           ),
           floatingActionButton: MapPage.mostrarBotonesAbajo
               ? Visibility(
