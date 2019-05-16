@@ -29,14 +29,15 @@ class HomeTab extends StatelessWidget {
                 children: <Widget>[
                   new FlatButton(
                     onPressed: () {
+                      MapUiPage.numLatitud = 39.1814828;
+                      MapUiPage.numLongitud = -3.7411756;
+                      MapUiPage.numZoom = 5;
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MapPage(
-                                    latitud: 39.1814828,
-                                    longitud: -3.7411756,
-                                    zoom: 5,
-                                  )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MapPage(),
+                        ),
+                      );
                     },
                     padding: EdgeInsets.only(
                         bottom: 25.0, right: 25.0, left: 25.0, top: 45.0),
@@ -54,8 +55,6 @@ class HomeTab extends StatelessWidget {
                             "Mapa",
                             style: TextStyle(
                               fontSize: 25.0,
-                              fontStyle: FontStyle.italic,
-                              fontFamily: 'DancingScript',
                             ),
                           ),
                         )
@@ -76,14 +75,15 @@ class HomeTab extends StatelessWidget {
                           locateUser().whenComplete(() {
                             print(latitud);
                             print(longitud);
+                            MapUiPage.numLatitud = latitud;
+                            MapUiPage.numLongitud = longitud;
+                            MapUiPage.numZoom = 14;
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MapPage(
-                                          latitud: latitud,
-                                          longitud: longitud,
-                                          zoom: 14,
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MapPage(),
+                              ),
+                            );
                           });
                         } else {
                           SweetAlert.dialog(
@@ -123,8 +123,6 @@ class HomeTab extends StatelessWidget {
                             "Alrededor",
                             style: TextStyle(
                               fontSize: 25.0,
-                              fontStyle: FontStyle.italic,
-                              fontFamily: 'DancingScript',
                             ),
                           ),
                         )
@@ -171,8 +169,6 @@ class HomeTab extends StatelessWidget {
                             "Favoritos",
                             style: TextStyle(
                               fontSize: 25.0,
-                              fontStyle: FontStyle.italic,
-                              fontFamily: 'DancingScript',
                             ),
                           ),
                         )
@@ -206,8 +202,6 @@ class HomeTab extends StatelessWidget {
                             "Buscar",
                             style: TextStyle(
                               fontSize: 25.0,
-                              fontStyle: FontStyle.italic,
-                              fontFamily: 'DancingScript',
                             ),
                           ),
                         )
