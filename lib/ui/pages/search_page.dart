@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/model/my_marker.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:project/ui/pages/marker_details.dart';
+import 'package:project/widgets/mysql.dart' as mysql;
 
 class SearchPage extends StatefulWidget {
   static String tag = 'search-page';
@@ -78,23 +79,76 @@ class SearchPageState extends State<SearchPage> {
       itemCount: names == null ? 0 : filteredNames.length,
       itemBuilder: (BuildContext context, int index) {
         return new ListTile(
-          title: Text(filteredNames[index].getTitulo()),
-          onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PageMarkerDetails(
-                        id: filteredNames[index].getId(),
-                        latitud: filteredNames[index].getLatitud(),
-                        longitud: filteredNames[index].getLongitud(),
-                        icono: filteredNames[index].getIcono(),
-                        titulo: filteredNames[index].getTitulo(),
-                        descripcion: filteredNames[index].getDescripcion(),
-                        estrellas: filteredNames[index].getEstrellas(),
-                        imagen: filteredNames[index].getImagen(),
-                      ),
-                ),
-              ),
-        );
+            title: Text(filteredNames[index].getTitulo()),
+            onTap: () {
+              IconData myIcon;
+              List<String> favorites = new List<String>();
+
+              if (mysql.getConnection()) {
+                print(mysql.getFavorites());
+                mysql
+                    .obtenerMarkerToFavorites(mysql.getUser().getUsername())
+                    .whenComplete(() {
+                  favorites = mysql.getFavorites();
+                  print("2 " + favorites.toString());
+
+                  MarkerDetails.iconoEstrellaVacio = true;
+
+                  favorites.forEach((elemento) {
+                    if (elemento == filteredNames[index].getId()) {
+                      print("ELEMENTO 1: " + elemento);
+                      print("ELEMENTO 2: " + filteredNames[index].getId());
+                      MarkerDetails.iconoEstrellaVacio = false;
+                    }
+                  });
+
+                  if (MarkerDetails.iconoEstrellaVacio) {
+                    myIcon = Icons.star_border;
+                  } else {
+                    myIcon = Icons.star;
+                  }
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => new PageMarkerDetails(
+                            id: filteredNames[index].getId(),
+                            latitud: filteredNames[index].getLatitud(),
+                            longitud: filteredNames[index].getLongitud(),
+                            icono: filteredNames[index].getIcono(),
+                            titulo: filteredNames[index].getTitulo(),
+                            descripcion: filteredNames[index].getDescripcion(),
+                            estrellas: filteredNames[index].getEstrellas(),
+                            imagen: filteredNames[index].getImagen(),
+                            myIcon: myIcon,
+                            fav: false,
+                            favorites: favorites,
+                          ),
+                    ),
+                  );
+                });
+              } else {
+                myIcon = Icons.star_border;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => new PageMarkerDetails(
+                          id: filteredNames[index].getId(),
+                          latitud: filteredNames[index].getLatitud(),
+                          longitud: filteredNames[index].getLongitud(),
+                          icono: filteredNames[index].getIcono(),
+                          titulo: filteredNames[index].getTitulo(),
+                          descripcion: filteredNames[index].getDescripcion(),
+                          estrellas: filteredNames[index].getEstrellas(),
+                          imagen: filteredNames[index].getImagen(),
+                          fav: false,
+                          myIcon: myIcon,
+                          favorites: favorites,
+                        ),
+                  ),
+                );
+              }
+            });
       },
     );
   }

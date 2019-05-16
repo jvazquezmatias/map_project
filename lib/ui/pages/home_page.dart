@@ -23,13 +23,18 @@ class HomePage extends State<MyHome> with SingleTickerProviderStateMixin {
     Tab(icon: new Icon(Icons.settings), text: "Ajustes")
   ];
   TabController controller;
+  bool ejecutarPermisos = true;
   @override
   void initState() {
     super.initState();
     controller = new TabController(length: tabs.length, vsync: this);
-    requestPermission().whenComplete(() {
-      print("false");
-    });
+    if (ejecutarPermisos) {
+      try {
+        requestPermission().whenComplete(() {
+          ejecutarPermisos = false;
+        });
+      } on Exception catch (e) {}
+    }
   }
 
   @override
