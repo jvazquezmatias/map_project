@@ -28,25 +28,15 @@ class MapPage extends StatefulWidget {
   static MapType tipusMapa = MapType.normal;
   static Marker newMarker;
   static MarkerId newMarkerId;
-  double latitud;
-  double longitud;
-  double zoom;
-
-  MapPage({this.latitud, this.longitud, this.zoom});
 
   @override
-  MapUiPage createState() =>
-      new MapUiPage(latitud: latitud, longitud: longitud, zoom: zoom);
+  MapUiPage createState() => new MapUiPage();
 }
 
 class MapUiPage extends State<MapPage> {
-  double latitud = 39.1814828;
-  double longitud = -3.7411756;
-  double zoom = 5;
   static double numLatitud;
   static double numLongitud;
   static double numZoom;
-  //14.4746
   static List<MyMarker> listMarkers = new List();
   LatLng actualPosition;
   MarkerId oldPositionMarker;
@@ -63,13 +53,9 @@ class MapUiPage extends State<MapPage> {
     Navigator.pop(context);
   }
 
-  MapUiPage({this.latitud, this.longitud, this.zoom});
-
   @override
   void initState() {
-    numLatitud = latitud;
-    numLongitud = longitud;
-    numZoom = zoom;
+    _resetCamera(numLatitud, numLongitud, numZoom);
     super.initState();
   }
 
@@ -279,6 +265,16 @@ class MapUiPage extends State<MapPage> {
     final GoogleMapController controller = await _controller.future;
     setState(() {
       controller.animateCamera(CameraUpdate.zoomTo(_position.zoom - 1));
+    });
+  }
+
+  Future<void> _resetCamera(
+      double latitud, double longitud, double zoom) async {
+    final GoogleMapController controller = await _controller.future;
+
+    setState(() {
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+          new CameraPosition(zoom: zoom, target: LatLng(latitud, longitud))));
     });
   }
 
