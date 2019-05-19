@@ -73,8 +73,6 @@ class HomeTab extends StatelessWidget {
                       checkingPermission().whenComplete(() {
                         if (permisoYes == 2) {
                           locateUser().whenComplete(() {
-                            print(latitud);
-                            print(longitud);
                             MapUiPage.numLatitud = latitud;
                             MapUiPage.numLongitud = longitud;
                             MapUiPage.numZoom = 14;

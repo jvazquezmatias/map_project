@@ -113,7 +113,7 @@ class MarkerDetails extends State<PageMarkerDetails> {
                       type: AlertType.ERROR,
                       cancelable: true,
                       title:
-                          "Inicia sesión para añadir un nuevo a tus favoritos",
+                          "Inicia sesión para añadir un lugar a tus favoritos",
                       showCancel: false,
                       closeOnConfirm: true,
                       confirmButtonText: "Aceptar",

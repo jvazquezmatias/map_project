@@ -95,9 +95,12 @@ class MapUiPage extends State<MapPage> {
                       children: <Widget>[
                         SizedBox(width: size.width * 0.20),
                         RaisedButton(
-                          color: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(32.0))),
+                          color: Colors.green,
                           child: const Text(
-                            'Save',
+                            'Siguiente',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
@@ -146,9 +149,12 @@ class MapUiPage extends State<MapPage> {
                           },
                         ),
                         RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(32.0))),
                           color: Colors.red,
                           child: const Text(
-                            'Cancel',
+                            'Cancelar',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
@@ -320,9 +326,6 @@ class MapUiPage extends State<MapPage> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
       );
       markers[MapPage.newMarkerId] = (MapPage.newMarker);
-      // print("Position Marker: " +
-      //     markers[MapPage.newMarkerId].position.toString());
-      // print("Actual Position: " + actualPosition.toString());
     });
   }
 
@@ -369,19 +372,15 @@ class MapUiPage extends State<MapPage> {
                 List<String> favorites = new List<String>();
 
                 if (mysql.getConnection()) {
-                  print(mysql.getFavorites());
                   mysql
                       .obtenerMarkerToFavorites(mysql.getUser().getUsername())
                       .whenComplete(() {
                     favorites = mysql.getFavorites();
-                    print("2 " + favorites.toString());
 
                     MarkerDetails.iconoEstrellaVacio = true;
 
                     favorites.forEach((elemento) {
                       if (elemento == element.getId()) {
-                        print("ELEMENTO 1: " + elemento);
-                        print("ELEMENTO 2: " + element.getId());
                         MarkerDetails.iconoEstrellaVacio = false;
                       }
                     });
@@ -454,6 +453,15 @@ class MapUiPage extends State<MapPage> {
       MapPage.filtrosActivos.add(mysql.parkingDiaNoche);
     if (MapPage.parkingSoloDia)
       MapPage.filtrosActivos.add(mysql.parkingSoloDia);
+    if (MapPage.rodeadoDeNaturaleza)
+      MapPage.filtrosActivos.add(mysql.rodeadoNaturaleza);
+    if (MapPage.areaDeServicios)
+      MapPage.filtrosActivos.add(mysql.areaDeServicio);
+    if (MapPage.solucionDeProblemas)
+      MapPage.filtrosActivos.add(mysql.solucionDeProblemas);
+    if (MapPage.areaAutocaravanasPublicaGratuita)
+      MapPage.filtrosActivos.add(mysql.areaAutocaravanasPublica);
+    if (MapPage.zonaDePicnic) MapPage.filtrosActivos.add(mysql.zonaPicnic);
 
     if (MapPage.filtrosActivos.isNotEmpty) {
       mysql.queryDownloadMarkersAndFilter().whenComplete(() {
@@ -480,7 +488,10 @@ class _FilterDialog extends State<DialogFilter> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return new AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
       title: new Text("Filtros"),
       content: Center(
         child: SingleChildScrollView(
@@ -494,7 +505,13 @@ class _FilterDialog extends State<DialogFilter> {
                 title: Text('Parking día y noche',
                     style: TextStyle(fontSize: 12.0)),
                 controlAffinity: ListTileControlAffinity.leading,
-                secondary: Icon(Icons.archive),
+                secondary: Padding(
+                  padding: EdgeInsets.only(left: 15.0, right: 0.0),
+                  child: Image(
+                    image: AssetImage("assets/img/icons/parkingDiaNoche.png"),
+                    width: size.width * 0.1,
+                  ),
+                ),
                 activeColor: Colors.red,
               ),
               CheckboxListTile(
@@ -505,7 +522,13 @@ class _FilterDialog extends State<DialogFilter> {
                 title:
                     Text('Parking solo día', style: TextStyle(fontSize: 12.0)),
                 controlAffinity: ListTileControlAffinity.leading,
-                secondary: Icon(Icons.archive),
+                secondary: Padding(
+                  padding: EdgeInsets.only(left: 15.0, right: 0.0),
+                  child: Image(
+                    image: AssetImage("assets/img/icons/parkingDia.png"),
+                    width: size.width * 0.1,
+                  ),
+                ),
                 activeColor: Colors.red,
               ),
               CheckboxListTile(
@@ -516,7 +539,13 @@ class _FilterDialog extends State<DialogFilter> {
                 title: Text('Rodeado de naturaleza',
                     style: TextStyle(fontSize: 12.0)),
                 controlAffinity: ListTileControlAffinity.leading,
-                secondary: Icon(Icons.archive),
+                secondary: Padding(
+                  padding: EdgeInsets.only(left: 9.0, right: 0.0),
+                  child: Image(
+                    image: AssetImage("assets/img/icons/naturaleza.png"),
+                    width: size.width * 0.09,
+                  ),
+                ),
                 activeColor: Colors.red,
               ),
               CheckboxListTile(
@@ -527,7 +556,13 @@ class _FilterDialog extends State<DialogFilter> {
                 title:
                     Text('Área de servicios', style: TextStyle(fontSize: 12.0)),
                 controlAffinity: ListTileControlAffinity.leading,
-                secondary: Icon(Icons.archive),
+                secondary: Padding(
+                  padding: EdgeInsets.only(left: 13.0),
+                  child: Image(
+                    image: AssetImage("assets/img/icons/areaDeServicio.png"),
+                    width: size.width * 0.1,
+                  ),
+                ),
                 activeColor: Colors.red,
               ),
               CheckboxListTile(
@@ -538,7 +573,13 @@ class _FilterDialog extends State<DialogFilter> {
                 title: Text('Solución de problemas',
                     style: TextStyle(fontSize: 12.0)),
                 controlAffinity: ListTileControlAffinity.leading,
-                secondary: Icon(Icons.archive),
+                secondary: Padding(
+                  padding: EdgeInsets.only(left: 17.0, right: 5.0),
+                  child: Image(
+                    image: AssetImage("assets/img/icons/solucionProblemas.png"),
+                    width: size.width * 0.06,
+                  ),
+                ),
                 activeColor: Colors.red,
               ),
               CheckboxListTile(
@@ -549,7 +590,14 @@ class _FilterDialog extends State<DialogFilter> {
                 title: Text('Área autocaravanas pública gratuita',
                     style: TextStyle(fontSize: 12.0)),
                 controlAffinity: ListTileControlAffinity.leading,
-                secondary: Icon(Icons.archive),
+                secondary: Padding(
+                  padding: EdgeInsets.only(left: 15.0, right: 0.0),
+                  child: Image(
+                    image: AssetImage(
+                        "assets/img/icons/autocaravanaPublicaGratis.png"),
+                    width: size.width * 0.1,
+                  ),
+                ),
                 activeColor: Colors.red,
               ),
               CheckboxListTile(
@@ -559,7 +607,13 @@ class _FilterDialog extends State<DialogFilter> {
                     }),
                 title: Text('Zona de picnic', style: TextStyle(fontSize: 12.0)),
                 controlAffinity: ListTileControlAffinity.leading,
-                secondary: Icon(Icons.archive),
+                secondary: Padding(
+                  padding: EdgeInsets.only(left: 15.0, right: 0.0),
+                  child: Image(
+                    image: AssetImage("assets/img/icons/zonaPicnic.png"),
+                    width: size.width * 0.12,
+                  ),
+                ),
                 activeColor: Colors.red,
               ),
             ],
@@ -623,7 +677,7 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
                   hintStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 10.0),
                   border: InputBorder.none,
                 ),
                 items: [
@@ -635,7 +689,8 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
                         Padding(
                           padding: EdgeInsets.only(left: 20.0, right: 20.0),
                           child: Image(
-                            image: AssetImage("assets/img/icons/bandera.png"),
+                            image: AssetImage(
+                                "assets/img/icons/parkingDiaNoche.png"),
                             width: size.width * 0.05,
                           ),
                         ),
@@ -643,7 +698,7 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
                         Padding(
                           padding: EdgeInsets.only(right: 20.0),
                           child: Text(
-                            "Bandera",
+                            "Parking dia y noche",
                           ),
                         )
                       ],
@@ -657,14 +712,125 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
                         Padding(
                           padding: EdgeInsets.only(left: 20.0, right: 20.0),
                           child: Image(
-                            image: AssetImage("assets/img/icons/location.png"),
+                            image:
+                                AssetImage("assets/img/icons/parkingDia.png"),
                             width: size.width * 0.05,
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: 20.0),
                           child: Text(
-                            "Corazon",
+                            "Parking solo dia",
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "3",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Image(
+                            image:
+                                AssetImage("assets/img/icons/naturaleza.png"),
+                            width: size.width * 0.05,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: Text(
+                            "Rodeado de naturaleza",
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "4",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Image(
+                            image: AssetImage(
+                                "assets/img/icons/areaDeServicio.png"),
+                            width: size.width * 0.05,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: Text(
+                            "Área de servicios",
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "5",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Image(
+                            image: AssetImage(
+                                "assets/img/icons/solucionProblemas.png"),
+                            width: size.width * 0.05,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: Text(
+                            "Solución de problemas",
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "6",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Image(
+                            image: AssetImage(
+                                "assets/img/icons/autocaravanaPublicaGratis.png"),
+                            width: size.width * 0.05,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: Text(
+                            "Área pública gratuita",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "7",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Image(
+                            image:
+                                AssetImage("assets/img/icons/zonaPicnic.png"),
+                            width: size.width * 0.05,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: Text(
+                            "Zona de picnic",
                           ),
                         )
                       ],
@@ -675,9 +841,19 @@ class DialogNewMarkerPage extends State<DialogNewMarker> {
                   setState(() {
                     valorIcono = value;
                     if (valorIcono == "1") {
-                      nombreIcono = "bandera";
+                      nombreIcono = "parkingDiaNoche";
                     } else if (valorIcono == "2") {
-                      nombreIcono = "location";
+                      nombreIcono = "ParkingDia";
+                    } else if (valorIcono == "3") {
+                      nombreIcono = "naturaleza";
+                    } else if (valorIcono == "4") {
+                      nombreIcono = "areaDeServicio";
+                    } else if (valorIcono == "5") {
+                      nombreIcono = "solucionProblemas";
+                    } else if (valorIcono == "6") {
+                      nombreIcono = "autocaravanaPublicaGratis";
+                    } else if (valorIcono == "7") {
+                      nombreIcono = "zonaPicnic";
                     }
                   });
                 },

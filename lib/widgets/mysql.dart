@@ -5,8 +5,13 @@ import 'package:project/model/my_marker.dart';
 import 'package:project/ui/pages/map_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const parkingDiaNoche = "location";
-const parkingSoloDia = "bandera";
+const parkingDiaNoche = "parkingDiaNoche";
+const parkingSoloDia = "parkingDia";
+const rodeadoNaturaleza = "naturaleza";
+const areaDeServicio = "areaDeServicio";
+const solucionDeProblemas = "solucionProblemas";
+const areaAutocaravanasPublica = "autocaravanaPublicaGratis";
+const zonaPicnic = "zonaPicnic";
 List<String> filtrosActivos;
 List<String> favoritesUser = new List<String>();
 User user;
